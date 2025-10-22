@@ -1,0 +1,485 @@
+/* Base */
+:root {
+  --bg: #1f1f1f;
+  --text: #ffffff;
+  --muted: #bdbdbd;
+  --bg-mutted: #2c2c2c;
+  --link-underline: currentColor;
+  --container: 1280px; /* outer frame width */
+  --accent: #8c8c8c;
+  --content: 1216px; /* inner content width in Figma */
+  --space-between-sections: 120px; /* spacing between major sections (Figma) */
+  /* Spacing tokens from Figma auto layout */
+  --gap-hero-stack: 36px; /* hero section vertical gap */
+  --gap-heading-links: 48px; /* between headings and quick links */
+  --gap-headings: 40px; /* inside headings column */
+  --gap-title-row: 17px; /* between title and subtitle */
+  --gap-media-group: 16px; /* explore link + media */
+  --gap-cta: 4px; /* icon + label */
+  --pad-quick-links: 8px; /* box padding */
+  --radius-quick-links: 4px;
+  --gap-quick-links-row: 36px; /* inner row gap for quick links */
+  /* Work section tokens */
+  --work-col-width: 600px;
+  --work-col-gap: 16px;
+  --work-row-gap: 153px;
+  --work-thumb-height: 366px;
+  --work-card-gap: 16px;
+  --work-caption-gap: 41px;
+  /* Media sizes */
+  --hero-media-height: 684px;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Lato", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji",
+    "Segoe UI Emoji";
+  color: var(--text);
+  background: var(--bg);
+}
+
+/* Normalize spacing and link colors to match Figma */
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+a,
+figure {
+  margin: 0;
+}
+a {
+  color: inherit;
+  text-decoration-color: currentColor;
+}
+a:visited {
+  color: inherit;
+}
+a:hover {
+  color: inherit;
+}
+
+/* Header */
+.site-header {
+  position: relative;
+  height: 64px; /* matches Figma */
+  display: flex;
+  align-items: center;
+  background-color: var(--bg);
+}
+
+.header-container {
+  position: relative;
+  width: 100%;
+  max-width: 1280px; /* optional clamp */
+  margin: 0 auto;
+  /* padding: 16px 32px; */
+  display: grid;
+  grid-template-columns: 32px 1fr auto; /* logo | links | actions */
+  /* gap: 64px; */
+  box-sizing: border-box;
+}
+
+.logo {
+  display: inline-flex;
+  width: 32px;
+  height: 32px;
+}
+
+.primary-nav {
+  display: flex;
+  align-items: center;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  /* gap: 24px; */
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 0 0; /* aligns left 82 with 32 logo + 50 offset */
+}
+
+.nav-links a {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 20px;
+  line-height: 24px;
+  white-space: nowrap;
+}
+
+.nav-links a.current {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.header-actions {
+  /* display: flex; */
+  align-items: center;
+  gap: 24px;
+}
+
+.icon-button {
+  display: inline-flex;
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-button svg {
+  display: block;
+}
+
+.mode-toggle {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  color: var(--text);
+}
+
+/* Layout helpers */
+.container {
+  width: 100%;
+  max-width: var(--content);
+  margin: 0 auto;
+  padding: 0; /* main provides side padding */
+  box-sizing: border-box;
+}
+
+.section-title {
+  /* font-size: 48px; */
+  font-weight: 700;
+  /* margin: 0 0 36px; */
+}
+
+.u {
+  text-decoration: underline;
+}
+.accent {
+  color: #aeaaaa;
+}
+
+/* Hero */
+.hero {
+  padding: 117px 0 0;
+}
+@media (max-width: 640px) {
+  .hero {
+    padding: 60px 0 0;
+  }
+}
+.hero-title {
+  /* font-size: 76px; */
+  font-weight: 900;
+  line-height: 1.03;
+  text-transform: uppercase;
+  letter-spacing: 1.52px;
+  /* width: 395px; */
+  margin: 0 0 12px;
+}
+.hero-sub {
+  /* font-size: 46px; */
+  font-weight: 500;
+  color: #919191;
+  line-height: 1.06;
+  letter-spacing: 0.92px;
+  /* width: 599px; */
+  /* padding-top: 6px; */
+}
+.hero-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-hero-stack);
+  align-items: flex-start;
+}
+.heading-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-heading-links);
+  align-items: flex-start;
+  /* width: 1011px; */
+}
+.headings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-headings);
+  align-items: flex-start;
+  /* width: 1011px; */
+}
+.title-row {
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-title-row);
+  align-items: center;
+}
+.hero-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  /* width: 956px; */
+}
+.hero-intro p {
+  font-size: 18px;
+  line-height: 28px;
+  color: var(--accent);
+}
+.hero-intro p .accent,
+.hero-intro p .u {
+  color: #ffffff;
+}
+.media-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-media-group);
+  align-items: flex-start;
+  /* width: var(--content); */
+}
+.hero-cta {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-cta);
+}
+
+.hero-media {
+  border-radius: 12px;
+  overflow: hidden;
+  width: var(--content);
+  height: var(--hero-media-height);
+  margin: 0;
+}
+.hero-media img {
+  display: block;
+  width: var(--content);
+  height: var(--hero-media-height);
+  object-fit: cover;
+}
+.hero-media .hero-video {
+  display: block;
+  width: var(--content);
+  height: var(--hero-media-height);
+  object-fit: cover;
+  background: #000;
+}
+
+/* Quick links box */
+.quick-links {
+  background: #2c2c2c;
+  padding: var(--pad-quick-links);
+  border-radius: var(--radius-quick-links);
+}
+.quick-links-row {
+  display: flex;
+  flex-direction: row;
+  /* gap: var(--gap-quick-links-row); */
+  align-items: flex-start;
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+}
+
+/* Work */
+.work {
+  /* margin-top: var(--space-between-sections); */
+}
+.work-grid {
+  /* display: grid;
+  grid-template-columns: var(--work-col-width) var(--work-col-width); 
+  column-gap: var(--work-col-gap);
+  row-gap: var(--work-row-gap);  */
+  /* width: var(--content); */
+}
+.card {
+  background: transparent;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--work-card-gap);
+  /* width: var(--work-col-width); */
+}
+.thumb {
+  border-radius: 12px;
+  overflow: hidden;
+  /* height: var(--work-thumb-height); */
+}
+.thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.card figcaption {
+  display: flex;
+  flex-direction: column;
+  /* gap: var(--work-caption-gap); */
+}
+.card h3 {
+  /* font-size: 24px; */
+  margin: 0;
+}
+.card p {
+  font-size: 18px;
+  line-height: 28px;
+  color: var(--accent);
+  margin: 0;
+}
+
+/* Talks */
+.talks {
+  /* margin-top: var(--space-between-sections); */
+}
+.talk {
+  /* margin: 48px 0; */
+}
+.talk-title {
+  /* font-size: 36px; */
+  font-weight: 500;
+  margin: 0 0 8px;
+}
+.names {
+  color: var(--accent);
+  margin-top: 12px;
+}
+.talk-meta {
+  /* font-size: 28px; */
+  /* opacity: 0.5; */
+  color: var(--accent);
+  margin: 0 0 12px;
+}
+.talk-desc {
+  font-size: 18px;
+  line-height: 26px;
+  margin: 0 0 16px;
+}
+.talk-image {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  display: block;
+}
+.other-talks h3 {
+  /* font-size: 36px; */
+  font-weight: 500;
+  margin: 48px 0 12px;
+}
+.other-talks ul {
+  list-style: disc;
+  padding-left: 40px;
+  margin: 0;
+  /* font-size: 28px; */
+  color: var(--accent);
+}
+.other-talks li {
+  line-height: 48px;
+}
+
+/* Articles */
+.articles {
+  margin-top: var(--space-between-sections);
+}
+.article {
+  margin: 24px 0;
+}
+.article h3 {
+  /* font-size: 28px; */
+  margin: 0 0 8px;
+}
+.article p {
+  font-size: 18px;
+  line-height: 24px;
+  margin: 0;
+}
+
+.project-info {
+  background-color: var(--bg-mutted);
+}
+.project-info .detail-text {
+  color: var(--accent);
+}
+.challenge {
+  color: var(--accent);
+}
+.list-decimal {
+  padding-left: 12px;
+}
+.list-decimal ::marker {
+  font-size: 24px;
+}
+
+/* Footer */
+.site-footer {
+  background: #2f2f2f;
+  margin-top: 48px;
+}
+.footer-container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 16px 32px;
+  display: grid;
+  grid-template-columns: 24px 24px 1fr;
+  align-items: center;
+  gap: 16px;
+}
+.footnote {
+  text-align: center;
+  font-size: 16px;
+}
+
+/* vimeo video*/
+
+.vimeo-play-button {
+  /* Positioning */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  /* Box */
+  width: 80px;
+  height: 80px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+/* Creates the white triangle "play" icon 
+  using CSS borders.
+*/
+.vimeo-play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  transition: background-color 0.2s;
+  /* This makes sure it's on top of the cover image, just in case */
+  z-index: 2;
+}
+
+/* Creates the white triangle "play" icon */
+.vimeo-play-button::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 54%; /* Slightly off-center for visual balance */
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border-top: 18px solid transparent;
+  border-bottom: 18px solid transparent;
+  border-left: 28px solid white;
+}
+
+/* Make the button slightly darker when the cover is hovered */
+#vimeo-cover:hover .vimeo-play-button {
+  background-color: rgba(0, 0, 0, 0.7);
+}

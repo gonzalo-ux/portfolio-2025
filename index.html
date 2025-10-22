@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gonzalo Vasquez - Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Inter:wght@400&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+    <!-- <link rel="stylesheet" href="dist/tailwind.css"> -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body>
+    <div class="relative">
+      <header class="shadow-xl site-header fixed! fixed top-0 right-0 left-0" role="banner">
+        <div class="header-container px-4 py-4 sm:px-8 gap-6 md:gap-16">
+          <a href="#" class="logo" aria-label="Home">
+            <img src="./assets/logo.svg" alt="" />
+          </a>
+
+          <nav class="primary-nav" aria-label="Primary">
+            <ul class="nav-links gap-3 md:gap-6">
+              <li><a class="current" href="#work">Work</a></li>
+              <li><a href="#talks">Talks</a></li>
+              <li><a href="#articles">Articles</a></li>
+              <li><a href="#about">About me</a></li>
+            </ul>
+          </nav>
+
+          <div class="header-actions hidden sm:flex">
+            <a
+              class="icon-button"
+              href="https://www.linkedin.com/in/gonzalovc/"
+              target="_blank"
+              rel="noopener"
+              aria-label="LinkedIn"
+            >
+              <img src="./assets/linkedin.svg" alt="" />
+            </a>
+            <a class="icon-button" href="mailto:gonzalo.dcv@gmail.com" aria-label="Email">
+              <img src="./assets/mail.svg" alt="" />
+            </a>
+          </div>
+        </div>
+      </header>
+    </div>
+
+    <main class="mx-auto max-w-[1280px] px-4 sm:px-8">
+      <!-- Hero -->
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="container hero-stack">
+          <div class="heading-links w-full">
+            <div class="headings w-full">
+              <div class="flex flex-col lg:flex-row gap-4 w-full">
+                <h1 id="hero-title" class="md:text-[76px] text-6xl hero-title lg:w-[400px]">Gonzalo Vasquez</h1>
+                <p class="hero-sub text-4xl sm:text-[46px] w-full lg:w-2xl pt-[6px]">
+                  Creative design systems technologist, mentor and speaker.
+                </p>
+              </div>
+              <div class="hero-intro lg:w-4xl">
+                <p>
+                  <span>Sr. Product designer </span>
+                  <span class="accent">specialised in Design systems</span>
+                  <span> based in Dublin, Ireland. I currently work at Zalando as part of the design system team </span>
+                  <span class="accent">supporting and enabling around 200 designers and 500 engineers</span>.
+                </p>
+                <p>
+                  Take a look at some of my recent
+                  <a href="#work" class="u">work</a>, enjoy one of my <a href="#talks" class="u">talks</a> and
+                  <a href="#articles" class="u">articles</a>, or feel free to
+                  <a href="mailto:hello@gonzalo.com" class="u">get in touch</a>.
+                </p>
+              </div>
+            </div>
+
+            <div class="quick-links" aria-label="Quick links">
+              <div class="quick-links-row gap-2">
+                <a class="u" href="https://www.linkedin.com" target="_blank" rel="noopener">Linkedin</a>
+                <span aria-hidden="true">•</span>
+                <a class="u" href="#">Resume</a>
+                <span aria-hidden="true">•</span>
+                <a class="u" href="mailto:hello@gonzalo.com">mail</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="media-group flex flex-col gap-4 sm:gap-[16px]">
+            <div class="hero-cta">
+              <img src="./assets/arrow-circle-down.svg" alt="" />
+              <a href="#work" class="u">Explore my work</a>
+            </div>
+
+            <figure class="aspect-video w-full rounded-2xl">
+              <video
+                class="aspect-video w-full rounded-2xl"
+                src="assets/hero-video.mp4"
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="auto"
+                aria-label="Conference talk on stage"
+              ></video>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- Work -->
+      <section id="work" class="work mt-16 lg:mt-30" aria-labelledby="work-title">
+        <div class="container">
+          <h2 id="work-title" class="section-title text-3xl md:text-[48px]">Work</h2>
+          <div class="work-grid grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-[16px] sm:gap-y-[48px] gap-y-10">
+            <figure class="card">
+              <div class="thumb aspect-4/2">
+                <img src="assets/frame16.png" alt="Design tokens and architecture" />
+              </div>
+              <figcaption class="sm:gap-y-3">
+                <h3 class="text-xl md:text-2xl">Design tokens and multi theme architecture</h3>
+                <p>
+                  A global solution to enable theming to all Zalando premises from a single set of tokens configuration
+                  for Web, iOS, Android and Figma.
+                </p>
+              </figcaption>
+            </figure>
+
+            <figure class="card">
+              <div class="thumb aspect-4/2">
+                <img src="assets/frame27.png" alt="Unified documentation" />
+              </div>
+              <figcaption class="sm:gap-y-3">
+                <h3 class="text-xl md:text-2xl">Unified documentation</h3>
+                <p>
+                  An internal tailored product to solve the scattered documentation problem for the Design system and
+                  Brand team.
+                </p>
+              </figcaption>
+            </figure>
+
+            <figure class="card">
+              <div class="thumb aspect-4/2">
+                <img src="assets/frame28.png" alt="Accessibility & dark mode" />
+              </div>
+              <figcaption class="sm:gap-y-3">
+                <h3 class="text-xl md:text-2xl">Accessibility & dark mode</h3>
+                <p>
+                  How dark mode was done in Zalando for multi theme and how I helped designers to quickly test and
+                  deliver a11y features.
+                </p>
+              </figcaption>
+            </figure>
+
+            <figure class="card">
+              <div class="thumb aspect-4/2">
+                <img src="assets/frame29.png" alt="ZDS plugins, tooling and Figma trainer" />
+              </div>
+              <figcaption class="sm:gap-y-3">
+                <h3 class="text-xl md:text-2xl">ZDS plugins, tooling and Figma trainer</h3>
+                <p>
+                  A collection of automation tooling to manage tokens migration, documentation and tokens sync with our
+                  Style dictionary configuration.
+                </p>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- Talks -->
+      <section id="talks" class="talks mt-16 lg:mt-30" aria-labelledby="talks-title">
+        <div class="container">
+          <h2 id="talks-title" class="section-title text-3xl md:text-[48px] mb-9!">Talks</h2>
+
+          <div class="talk">
+            <h3 class="talk-title u text-[28px] md:text-4xl">
+              Delivering a multi-sub-brand design system for e-commerce
+            </h3>
+            <p class="talk-meta text-2xl md:text-[28px]">Config 2024, San Francisco U.S.A.</p>
+            <p class="talk-desc">
+              In 2023 the Zalando design system went through a huge revamp of its foundations to support an increasing
+              need for more variation in the visual language. This transformation was driven by Zalando’s multi
+              proposition strategy through which they aim to differentiate experiences like Fashion, Beauty or
+              Premium/Designer and tailor them based on their specific needs through Themes. In this talk, the Zalando
+              team want to take you through their journey of developing the capabilities while crafting the first new
+              theme.
+            </p>
+            <!-- <img src="assets/image11.png" alt="Talk photo: Config 2024" class="talk-image"> -->
+            <div class="flex justify-center">
+              <iframe
+                class="rounded-2xl aspect-video w-full h-full"
+                width="1234"
+                height="694"
+                src="https://www.youtube.com/embed/En-aD9KDIsE"
+                title="Config 2024: Delivering a multi-sub-brand design system for e-commerce | Figma"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <p class="names text-lg md:text-[22px]">Gonzalo Vasquez, Leonie Proske, Sheryl Bagga</p>
+          </div>
+
+          <div class="talk mt-16">
+            <h3 class="talk-title u text-[28px] md:text-4xl">Navigating complex system updates</h3>
+            <p class="talk-meta text-2xl md:text-[28px]">Schema 2022, London U.K.</p>
+            <p class="talk-desc">
+              Zalando is a leading European online platform for fashion and lifestyle. In such a large scale
+              organisation, we are used to dealing with a lot of complexity. For our design system team, this means
+              supporting 50+ teams and counting more than 140k component inserts per week. Updating one core component
+              can require cross library changes while small enhancements have a huge potential to accelerate designers'
+              workflow. Based on one example, we are excited to share how branching, contribution processes and custom
+              built tools help us navigate system updates in close collaboration with embedded teams.
+            </p>
+            <!-- <img src="assets/image10.png" alt="Talk photo: Schema 2022" class="talk-image"> -->
+            <div class="flex justify-center">
+              <iframe
+                class="rounded-2xl aspect-video w-full h-full"
+                width="1234"
+                height="694"
+                src="https://www.youtube.com/embed/co6t3x7OsWk"
+                title="Navigating complex system updates - Gonzalo Vasquez, Leonie Proske (Schema 2022)"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <p class="names text-lg md:text-[22px]">Gonzalo Vasquez, Leonie Proske</p>
+          </div>
+
+          <div class="talk mt-16">
+            <h3 class="talk-title u text-[28px] md:text-4xl">
+              Introducción al pensamiento en sistemas (Systems thinking)
+            </h3>
+            <p class="talk-meta text-2xl md:text-[28px]">Garaje Inspirational Fest 2025, Spain (online)</p>
+            <p class="talk-desc">
+              A talk about why the ability of systems thinking is critical for designers and professionals working in
+              technology. I delved into how this skill allows us to see problems comprehensively, and the importance of
+              understanding the relationships between the interacting parts of a system. I analysed how the world is
+              formed by systems, flows, stocks, and feedback loops, and how we can make use of these concepts to
+              intervene in systems and produce better outcomes.
+            </p>
+            <!-- <img src="assets/image12.png" alt="Talk photo: Systems thinking" class="talk-image"> -->
+            <div class="vimeo-wrapper rounded-2xl" style="padding: 56.25% 0 0 0; position: relative">
+              <div
+                id="vimeo-cover"
+                class="rounded-2xl"
+                style="
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  width: 100%;
+                  height: 100%;
+                  background-image: url('./assets/image12.png');
+                  background-size: cover;
+                  background-position: center;
+                  cursor: pointer;
+                  z-index: 1;
+                "
+              >
+                <div class="vimeo-play-button"></div>
+              </div>
+              <iframe
+                class="rounded-2xl"
+                id="vimeo-iframe"
+                src="about:blank"
+                data-src="https://player.vimeo.com/video/1058927947?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1"
+                frameborder="0"
+                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%"
+                title="Introducción al Pensamiento de Sistemas (System Thinking) con Gonzalo Vásquez"
+              >
+              </iframe>
+            </div>
+          </div>
+
+          <div class="other-talks mt-16 talk">
+            <h3 class="talk-title text-[28px] md:text-4xl">Other talks</h3>
+            <ul>
+              <li class="leading-[20px] md:leading-[28px] text-xl md:text-[28px]">
+                <span class="leading-[20px] md:leading-[28px] text-xl md:text-[28px] u"
+                  >Inspect & Reflect: Monday.com’s Vibe Design System</span
+                >
+                | 2025
+              </li>
+              <li class="leading-[20px] md:leading-[28px] text-xl md:text-[28px]">
+                <span class="leading-[20px] md:leading-[28px] text-xl md:text-[28px] u"
+                  >Inspect & Reflect: Uber.com’s Base Design System</span
+                >
+                | 2025
+              </li>
+              <li class="leading-[20px] md:leading-[28px] text-xl md:text-[28px]">
+                <span class="leading-[20px] md:leading-[28px] text-xl md:text-[28px] u"
+                  >Design Systems Community: Adopción de los sistemas de diseño (Spanish)</span
+                >
+                | 2022
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Articles -->
+      <section id="articles" class="articles" aria-labelledby="articles-title">
+        <div class="container">
+          <h2 id="articles-title" class="section-title text-3xl sm:text-[48px]">Articles</h2>
+          <article class="article">
+            <h3 class="talk-title text-[28px] md:text-4xl u">
+              Bringing more character to the Zalando Design System with theming
+            </h3>
+            <p>
+              Senior Product Designer Gonzalo Vasquez shares how the Zalando Design System team built theming
+              capabilities for our Fashion Store and what they learnt from the process.
+            </p>
+          </article>
+          <article class="article">
+            <h3 class="talk-title text-[28px] md:text-4xl u">Design Tokens on your Design System</h3>
+            <p>
+              If you are starting to work on a Design System, consider make a pause and define your Design Tokens first.
+            </p>
+          </article>
+          <article class="article">
+            <h3 class="talk-title text-[28px] md:text-4xl u">De Chile a Irlanda como UX (spanish)</h3>
+            <p>Consejos para profesionales que buscan relocación en Europa.</p>
+          </article>
+          <h3 class="talk-title text-[28px] md:text-4xl u">All articles</h3>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+      <div class="footer-container">
+        <a class="icon-button" href="https://www.linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <rect x="2" y="2" width="20" height="20" rx="3" fill="#ffffff" opacity="0.9" />
+            <path d="M7.2 17.5V9.5" stroke="#111" stroke-width="1.8" stroke-linecap="round" />
+            <circle cx="7.2" cy="6.8" r="1.2" fill="#111" />
+            <path
+              d="M11 17.5v-4.4c0-1.5 1.2-2.3 2.4-2.3s2.4.8 2.4 2.3v4.4"
+              stroke="#111"
+              stroke-width="1.8"
+              stroke-linecap="round"
+            />
+          </svg>
+        </a>
+        <a class="icon-button" href="mailto:hello@gonzalo.com" aria-label="Email">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <rect x="2" y="4" width="20" height="16" rx="2" fill="none" stroke="#ffffff" stroke-width="1.8" />
+            <path
+              d="M4 7l8 6 8-6"
+              fill="none"
+              stroke="#ffffff"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </a>
+        <p class="footnote">Website design and content © 2025 Gonzalo Vásquez</p>
+      </div>
+    </footer>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>

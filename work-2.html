@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gonzalo Vasquez - Portfolio | Unified documentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Inter:wght@400&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+    <!-- <link rel="stylesheet" href="dist/tailwind.css"> -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body>
+    <div class="relative">
+      <header class="shadow-xl site-header fixed! fixed top-0 right-0 left-0" role="banner">
+        <div class="header-container px-4 py-4 sm:px-8 gap-6 md:gap-16">
+          <a href="#" class="logo" aria-label="Home">
+            <img src="./assets/logo.svg" alt="" />
+          </a>
+
+          <nav class="primary-nav" aria-label="Primary">
+            <ul class="nav-links gap-3 md:gap-6">
+              <li><a class="current" href="#work">Work</a></li>
+              <li><a href="#talks">Talks</a></li>
+              <li><a href="#articles">Articles</a></li>
+              <li><a href="#about">About me</a></li>
+            </ul>
+          </nav>
+
+          <div class="header-actions hidden sm:flex">
+            <a
+              class="icon-button"
+              href="https://www.linkedin.com/in/gonzalovc/"
+              target="_blank"
+              rel="noopener"
+              aria-label="LinkedIn"
+            >
+              <img src="./assets/linkedin.svg" alt="" />
+            </a>
+            <a class="icon-button" href="mailto:gonzalo.dcv@gmail.com" aria-label="Email">
+              <img src="./assets/mail.svg" alt="" />
+            </a>
+          </div>
+        </div>
+      </header>
+    </div>
+
+    <main class="mx-auto max-w-[1280px] px-4 sm:px-8">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="container hero-stack">
+          <div class="heading-links w-full">
+            <div class="headings w-full lg:w-[1012px]">
+              <div class="flex flex-col gap-4 w-full">
+                <h1 id="hero-title" class="text-5xl md:text-6xl font-bold">Unified documentation</h1>
+                <p class="hero-sub text-4xl sm:text-[46px] w-full py-0">
+                  An internal product that streamlined and unified documentation for systems and brand teams
+                </p>
+              </div>
+              <div class="hero-intro">
+                <p>
+                  Along with my engineer partner we built a bespoke solution that allowed teams to create, manage and
+                  deploy documentation to separate websites through a CMS while embedding external sources giving them
+                  freedom to own and reuse content across sites.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="quick-links" aria-label="Quick links">
+            <div class="quick-links-row gap-2">
+              <a class="u" href="https://www.linkedin.com" target="_blank" rel="noopener"
+                >Check the public Brand Zalando website
+              </a>
+            </div>
+          </div>
+          <figure class="rounded-2xl">
+            <video
+              class="rounded-2xl"
+              src="assets/work-2-hero.mp4"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="auto"
+              aria-label="Conference talk on stage"
+            ></video>
+          </figure>
+        </div>
+      </section>
+
+      <section class="work-content mt-16 lg:mt-30">
+        <p class="text-2xl challenge">The challenge</p>
+        <h2 class="section-title text-3xl md:text-[48px] mb-6!">We had scattered and disconnected documentation</h2>
+        <p class="talk-desc">
+          Since always the Zalando design system team add detailed documentation about, components, styles, patterns,
+          etc. However this documentation was scattered and separated by platform, a website for web, markdown files for
+          apps and figma for design. This made really hard to find the right answer for consumers and a big headache for
+          system creators to maintain these spaces of documentation. This was shared pain among other teams like the
+          Zalando brand and the content teams.
+        </p>
+      </section>
+
+      <section class="work-content mt-16 lg:mt-30">
+        <h2 class="section-title text-3xl md:text-[48px] mb-6!">My role, achievements and outcomes</h2>
+        <p class="talk-desc mb-6!">
+          I partnered with a front end engineer to built the whole product from the ground up. I designed all the
+          screens and modules as content types (templates), including visual design, information architecture and how
+          the rules about how to manage the content. I trained around 40 people about how to use our solutions and the
+          CMS and help to built Figma tooling to embed images, slides and prototypes on the website from Figma and
+          Google docs. I played the role of Design lead, Project manager, Content designer and Front-end engineer.
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-9 max-w-[1100px]">
+          <div class="rounded-xl p-3 project-info flex flex-col items-center gap-2">
+            <p>Simplified documentation</p>
+            <p class="text-7xl">6 → 1</p>
+            <p class="text-[14px] detail-text">
+              Siloed pieces of documentation were merged into a single source of truth.
+            </p>
+          </div>
+          <div class="rounded-xl p-3 project-info flex flex-col items-center gap-2">
+            <p>Active users</p>
+            <p class="text-7xl">800+</p>
+            <p class="text-[14px] detail-text">Brand documentation site is used by Zalandos and 3rd party agencies.</p>
+          </div>
+          <div class="rounded-xl p-3 project-info flex flex-col items-center gap-2">
+            <p>Content creators trained</p>
+            <p class="text-7xl">50+</p>
+            <p class="text-[14px] detail-text">
+              I trained people on 5 separate teams about how to create documentation.
+            </p>
+          </div>
+          <div class="rounded-xl p-3 project-info flex flex-col items-center gap-2">
+            <p>Websites launched</p>
+            <p class="text-7xl">3</p>
+            <p class="text-[14px] detail-text">ZDS documentation, Brand and Writing guidelines websites.</p>
+          </div>
+        </div>
+        <div class="work-list mt-6">
+          <p class="font-bold text-xl mb-2!">My work as design prime consisted in:</p>
+          <ul class="list-disc list-inside">
+            <li>Lead project management, features and roadmap</li>
+            <li>Organise tasks for web, iOS and Android engineers</li>
+            <li>Designed overall visual design for pages, sections and embedded content</li>
+            <li>Organised and map content and information architecture</li>
+            <li>Train engineers, product, brand and content designers to create , manage and deploy documentation</li>
+            <li>Design a draft mode feature, content management, formats and lifecycle</li>
+            <li>Create, edit and export video material</li>
+            <li>Enabled the public launch for the Zalando brand website</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="work-content mt-16 lg:mt-30">
+        <h2 class="section-title text-3xl md:text-[48px] mb-6!">Curating documentation and organising the content</h2>
+        <div class="work-list mt-6">
+          <p class="font-bold text-xl mb-2!">Responsible for:</p>
+          <ul class="list-disc list-inside">
+            <li>Organise content presentation, groups and overlaps</li>
+            <li>Define sitemap for 3 documentation websites, System, Brand and content</li>
+            <li>Design navigation, search and layout framework</li>
+          </ul>
+          <img class="mt-6" src="./assets/sitemap.png" alt="" />
+        </div>
+      </section>
+
+      <section class="work-content mt-16 lg:mt-30">
+        <h2 class="section-title text-3xl md:text-[48px] mb-6!">Setting the content management</h2>
+        <div class="work-list mt-6">
+          <p class="font-bold text-xl mb-2!">Responsible for:</p>
+          <ul class="list-disc list-inside">
+            <li>Design content management rules and content formats (static, dynamic, embedded, etc)</li>
+            <li>Define content lifecycle (create, edit, publish, maintain, etc)</li>
+            <li>Set shareable content process and document how to build pages in the CMS</li>
+          </ul>
+          <img class="mt-6" src="./assets/cms.png" alt="" />
+          <img class="mt-6" src="./assets/build-pages.png" alt="" />
+          <img class="mt-6" src="./assets/documentation-plugin.png" alt="" />
+        </div>
+      </section>
+
+      <section class="work-content mt-16 lg:mt-30">
+        <h2 class="section-title text-3xl md:text-[48px] mb-6!">Delivering 3 (much needed) documentation websites</h2>
+        <div class="work-list mt-6">
+          <p class="font-bold text-xl mb-2!">Responsible for:</p>
+          <ul class="list-disc list-inside">
+            <li>Design visual design and templates for 3 documentation websites</li>
+            <li>Add content into CMS, set Figma library for embedded managed though a plugin connected to the CMS</li>
+            <li>Publish and maintain content</li>
+          </ul>
+          <p class="font-bold text-[18px] mt-6!">Zalando Brand hub</p>
+          <img class="mt-3" src="./assets/brand-hub.png" alt="" />
+          <p class="font-bold text-[18px] mt-6!">Zalando design system (ZDS) documentation</p>
+          <img class="mt-3" src="./assets/zds-doc.png" alt="" />
+          <p class="font-bold text-[18px] mt-6!">Zalando Writing guides</p>
+          <img class="mt-3" src="./assets/writing-doc.png" alt="" />
+        </div>
+      </section>
+    </main>
+    <script src="script.js" defer></script>
+  </body>
+</html>
