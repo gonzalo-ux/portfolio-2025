@@ -16,19 +16,19 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
   <body>
-    <div class="relative">
-      <header class="shadow-xl site-header fixed! fixed top-0 right-0 left-0" role="banner">
+    <div class="relative z-2">
+      <header class="site-header fixed! fixed top-0 right-0 left-0 backdrop-blur-md" role="banner">
         <div class="header-container px-4 py-4 sm:px-8 gap-6 md:gap-16">
-          <a href="#" class="logo" aria-label="Home">
+          <a href="index.html" class="logo" aria-label="Home">
             <img src="./assets/logo.svg" alt="" />
           </a>
 
           <nav class="primary-nav" aria-label="Primary">
             <ul class="nav-links gap-3 md:gap-6">
-              <li><a class="current" href="#work">Work</a></li>
-              <li><a href="#talks">Talks</a></li>
-              <li><a href="#articles">Articles</a></li>
-              <li><a href="#about">About me</a></li>
+              <li><a href="index.html">Work</a></li>
+              <li><a href="index.html#talks">Talks</a></li>
+              <li><a href="index.html#articles">Articles</a></li>
+              <li><a href="about.html">About me</a></li>
             </ul>
           </nav>
 
@@ -72,8 +72,8 @@
           </div>
           <div class="quick-links" aria-label="Quick links">
             <div class="quick-links-row gap-2">
-              <a class="u" href="https://www.linkedin.com" target="_blank" rel="noopener"
-                >Check the public Brand Zalando website
+              <a class="u" href="https://brand.zalando.com/" target="_blank" rel="noopener"
+                >Check the public Brand Zalando website (wip)
               </a>
             </div>
           </div>
@@ -96,22 +96,25 @@
         <p class="text-2xl challenge">The challenge</p>
         <h2 class="section-title text-3xl md:text-[48px] mb-6!">We had scattered and disconnected documentation</h2>
         <p class="talk-desc">
-          Since always the Zalando design system team add detailed documentation about, components, styles, patterns,
+          Since always the Zalando design system team had detailed documentation about, components, styles, patterns,
           etc. However this documentation was scattered and separated by platform, a website for web, markdown files for
-          apps and figma for design. This made really hard to find the right answer for consumers and a big headache for
-          system creators to maintain these spaces of documentation. This was shared pain among other teams like the
-          Zalando brand and the content teams.
+          apps and Figma files for design. This made really hard to find the right answer for consumers and a big
+          headache for system creators to maintain these spaces of documentation. This was a shared pain among other
+          teams like the Zalando brand and the content teams where there will be multiple Google docs, PDFs, videos and
+          presentations containing important gudelines that were used internally and shared with external design
+          agencies.
         </p>
       </section>
 
       <section class="work-content mt-16 lg:mt-30">
         <h2 class="section-title text-3xl md:text-[48px] mb-6!">My role, achievements and outcomes</h2>
         <p class="talk-desc mb-6!">
-          I partnered with a front end engineer to built the whole product from the ground up. I designed all the
-          screens and modules as content types (templates), including visual design, information architecture and how
-          the rules about how to manage the content. I trained around 40 people about how to use our solutions and the
-          CMS and help to built Figma tooling to embed images, slides and prototypes on the website from Figma and
-          Google docs. I played the role of Design lead, Project manager, Content designer and Front-end engineer.
+          I partnered with a front end engineer to built the whole product and reusable architecture from the ground up.
+          I designed all the screens and modules as content types (templates), including visual design, information
+          architecture and how the rules about to manage the content. I trained around 40 people about how to use our
+          solutions and the CMS and help to built Figma tooling to embed images, slides and prototypes on the website
+          from Figma and Google docs. I played the role of Design lead, Project manager, Content designer and Front-end
+          engineer.
         </p>
         <div class="grid grid-cols-1 sm:grid-cols-4 gap-9 max-w-[1100px]">
           <div class="rounded-xl p-3 project-info flex flex-col items-center gap-2">
@@ -199,7 +202,39 @@
           <img class="mt-3" src="./assets/writing-doc.png" alt="" />
         </div>
       </section>
+      <section class="mt-16 lg:mt-30 flex flex-col md:flex-row justify-between opacity-50 gap-4">
+        <a class="underline-offset-8 u flex flex-row gap-2" href="work-1.html">
+          <p class="text-xl lg:text-2xl">Prev: Design tokens and multi theme architecture</p>
+        </a>
+        <a class="underline-offset-8 u flex flex-row gap-2" href="work-3.html">
+          <p class="text-xl lg:text-2xl">Next: Immersive dark mode & accessibility</p>
+        </a>
+      </section>
+      <div class="flex flex-col items-center max-w-[4768px] mt-16 lg:mt-30 text-center no-ai gap-4">
+        <p class="leading-6">
+          This website was manually built with love and plain html, css & js. <br />No AI was used in the process.
+        </p>
+        <p>Thanks for reading.</p>
+        <img class="w-[24px]" src="./assets/heart.svg" alt="" />
+      </div>
     </main>
+    <footer class="site-footer" role="contentinfo">
+      <div class="footer-container">
+        <a
+          class="icon-button"
+          href="https://www.linkedin.com/in/gonzalovc/"
+          target="_blank"
+          rel="noopener"
+          aria-label="LinkedIn"
+        >
+          <img src="./assets/linkedin.svg" alt="" />
+        </a>
+        <a class="icon-button" href="mailto:gonzalo.dcv@gmail.com" aria-label="Email">
+          <img src="./assets/mail.svg" alt="" />
+        </a>
+        <p class="footnote">Website design and content © 2025 Gonzalo Vásquez</p>
+      </div>
+    </footer>
     <script src="script.js" defer></script>
   </body>
 </html>

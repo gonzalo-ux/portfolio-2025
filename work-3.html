@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gonzalo Vasquez - Portfolio | Immersive dark mode & accessibility</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Inter:wght@400&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+    <!-- <link rel="stylesheet" href="dist/tailwind.css"> -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body>
+    <div class="relative z-2">
+      <header class="site-header fixed! fixed top-0 right-0 left-0 backdrop-blur-md" role="banner">
+        <div class="header-container px-4 py-4 sm:px-8 gap-6 md:gap-16">
+          <a href="index.html" class="logo" aria-label="Home">
+            <img src="./assets/logo.svg" alt="" />
+          </a>
+
+          <nav class="primary-nav" aria-label="Primary">
+            <ul class="nav-links gap-3 md:gap-6">
+              <li><a href="index.html">Work</a></li>
+              <li><a href="index.html#talks">Talks</a></li>
+              <li><a href="index.html#articles">Articles</a></li>
+              <li><a href="about.html">About me</a></li>
+            </ul>
+          </nav>
+
+          <div class="header-actions hidden sm:flex">
+            <a
+              class="icon-button"
+              href="https://www.linkedin.com/in/gonzalovc/"
+              target="_blank"
+              rel="noopener"
+              aria-label="LinkedIn"
+            >
+              <img src="./assets/linkedin.svg" alt="" />
+            </a>
+            <a class="icon-button" href="mailto:gonzalo.dcv@gmail.com" aria-label="Email">
+              <img src="./assets/mail.svg" alt="" />
+            </a>
+          </div>
+        </div>
+      </header>
+    </div>
+
+    <main class="mx-auto max-w-[1280px] px-4 sm:px-8">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="container hero-stack">
+          <div class="heading-links w-full">
+            <div class="headings w-full lg:w-[1012px]">
+              <div class="flex flex-col gap-4 w-full">
+                <h1 id="hero-title" class="text-5xl md:text-6xl font-bold">Immersive dark mode & accessibility</h1>
+                <p class="hero-sub text-4xl sm:text-[46px] w-full py-0">
+                  The official Zalando dark mode for each theme and how I setup 200% size mode in Figma
+                </p>
+              </div>
+              <div class="hero-intro">
+                <p>
+                  I drove the Dark mode exploration and implementation to ensure a11y compliance while giving teams
+                  tools to force dark and immersive experiences for each theme. I also led Figma setup to allow 200%
+                  resize on mocks using variables.
+                </p>
+              </div>
+            </div>
+          </div>
+          <figure class="rounded-2xl mt-6!">
+            <video
+              class="rounded-2xl"
+              src="assets/dm-themes.mp4"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="auto"
+              aria-label="Conference talk on stage"
+            ></video>
+          </figure>
+        </div>
+      </section>
+      <section class="work-content mt-16 lg:mt-30">
+        <p class="text-2xl challenge">The challenge</p>
+        <h2 class="section-title text-3xl md:text-[48px] mb-6!">No official support for Dark mode</h2>
+        <p class="talk-desc mt-6">
+          The European Accessibility Act (EAA), which takes effect in 2025, mandates that certain digital products and
+          services offered in the EU meet accessibility standards. This includes providing a dark mode option for users.
+        </p>
+        <p class="talk-desc mt-6">
+          Besides this, applying dark mode involves way more than just adapting or swapping colours. It’s about colour
+          schemes, yes, but also about our themes architecture, the user device settings and freedom to choose. The
+          design and component tokens already available and how some themes will be experienced by default, like video
+          and different media.
+        </p>
+        <img class="mt-6" src="./assets/dm-context.png" alt="" />
+      </section>
+
+      <section class="work-content mt-16 lg:mt-30">
+        <h2 class="section-title text-3xl md:text-[48px] mb-6!">My role, achievements and outcomes</h2>
+        <p class="talk-desc mb-6!">
+          While the legislation does not yet clearly define the exact requirements for dark mode—or whether an
+          equivalent light mode experience is also mandatory—Zalando’s accessibility team and I reviewed the guidance
+          and agreed on the following principles
+        </p>
+        <ul class="list-disc list-inside">
+          <li>
+            Respect user preferences: When a user has dark mode enabled at the system level, all Zalando content must be
+            compatible with and visually accessible in a dark interface.
+          </li>
+          <li>
+            Light mode is not mandatory: Unlike dark mode, light mode does not require the same level of enforcement.
+            This gives us the flexibility to design certain content, such as media, videos, or immersive UI elements, to
+            always appear in dark mode. This approach is particularly suitable for experiences like video streaming or
+            Zalando Stories, where a dark environment can enhance user engagement.
+          </li>
+        </ul>
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-9 max-w-[1100px] mt-6">
+          <div class="rounded-xl p-3 project-info flex flex-col items-center gap-2">
+            <p>Dark mode themes</p>
+            <p class="text-7xl">3</p>
+            <p class="text-[14px] detail-text">Each theme has its own dark mode.</p>
+          </div>
+          <div class="rounded-xl p-3 project-info flex flex-col items-center gap-2">
+            <p>Illustrations updated</p>
+            <p class="text-7xl">200+</p>
+            <p class="text-[14px] detail-text">
+              I trained people on 5 separate teams about how to create documentation.
+            </p>
+          </div>
+          <div class="rounded-xl p-3 project-info flex flex-col items-center gap-2">
+            <p>Content creators trained</p>
+            <p class="text-7xl">50+</p>
+            <p class="text-[14px] detail-text">
+              I trained people on 5 separate teams about how to create documentation.
+            </p>
+          </div>
+          <div class="rounded-xl p-3 project-info flex flex-col items-center gap-2">
+            <p>Websites launched</p>
+            <p class="text-7xl">3</p>
+            <p class="text-[14px] detail-text">ZDS documentation, Brand and Writing guidelines websites.</p>
+          </div>
+        </div>
+        <div class="work-list mt-6">
+          <p class="font-bold text-xl mb-2!">My work as design prime consisted in:</p>
+          <ul class="list-disc list-inside">
+            <li>Explore colour tokens overrides</li>
+            <li>Explore future vision of product images setup for dark mode</li>
+            <li>Designed how dark and light mode colour schemes can be nested</li>
+            <li>Setup new red sale to be a/b tested</li>
+            <li>Document how dark mode works and how it can be used</li>
+            <li>Created a script to update all illustrations to work on dark mode</li>
+            <li>Designed guidelines about how gradients and fix dark areas are applied</li>
+          </ul>
+          <img class="mt-6" src="./assets/dm-pdp.png" alt="" />
+          <figure class="rounded-2xl mt-6!">
+            <video
+              class="rounded-2xl"
+              src="assets/dm-figma.mp4"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="auto"
+              aria-label="Conference talk on stage"
+            ></video>
+          </figure>
+        </div>
+      </section>
+
+      <section class="work-content mt-16 lg:mt-30">
+        <h2 class="section-title text-3xl md:text-[48px] mb-6!">Exploring a future vision for adaptive images</h2>
+        <p class="talk-desc">
+          I used AI to explore how product images may look in dark mode. This exploration was aligned with the Content
+          solutions team to push the boundaries of Zalando AI workstation pipeline to recreate images for dark mode.
+        </p>
+        <img class="mt-3" src="./assets/dm-4.png" alt="" />
+        <p class="talk-desc mt-6!">Figma mocks using AI generated images using Chat-GPT, Adobe Firefly and Reve.</p>
+        <img class="mt-3" src="./assets/dm-1.png" alt="" />
+        <img class="mt-3" src="./assets/dm-2.png" alt="" />
+        <p class="talk-desc mt-6!">Designer theme dark mode</p>
+        <img class="mt-3" src="./assets/dm-3.png" alt="" />
+      </section>
+
+      <section class="work-content mt-16 lg:mt-30">
+        <h2 class="section-title text-3xl md:text-[48px] mb-6!">Defining the red sale</h2>
+        <p class="talk-desc mb-6!">
+          I defined what would be the Red sale colour on dark mode, currently in A/B testing phase. This was done
+          setting the whole colour shade scale starting from the existing red sale based on the Lightness and Saturation
+          & Luminance of the red colour.
+        </p>
+        <img class="mt-6" src="./assets/dm-red-2.png" alt="" />
+        <img class="mt-6" src="./assets/dm-red-1.png" alt="" />
+      </section>
+
+      <section class="work-content mt-16 lg:mt-30">
+        <h2 class="section-title text-3xl md:text-[48px] mb-6!">Illustrations and media</h2>
+        <p class="talk-desc mb-6!">
+          I created a script to go trough all the svg illustrations in our assets library and creating a dark mode
+          version swapping the black shades to white. This work saved multiple hours of manual work changing the colours
+          and exporting new assets. This was an interim solution since in the near future following the brand refresh
+          project Zalando will remove coloured illustrations.
+        </p>
+        <p class="talk-desc mb-6!">
+          I also documented how scrim gradient would work to keep text on top of images and how dark mode will be used
+          for video content.
+        </p>
+        <img class="mt-6 rounded-2xl" src="./assets/dm-illustrations.png" alt="" />
+      </section>
+      <section class="mt-16 lg:mt-30 flex flex-col md:flex-row justify-between opacity-50 gap-4">
+        <a class="underline-offset-8 u flex flex-row gap-2" href="work-2.html">
+          <p class="text-xl lg:text-2xl">Prev: Unified documentation</p>
+        </a>
+        <a class="underline-offset-8 u flex flex-row gap-2" href="work-4.html">
+          <p class="text-xl lg:text-2xl">Next: Figma components, plugins and trainings</p>
+        </a>
+      </section>
+      <div class="flex flex-col items-center max-w-[4768px] mt-16 lg:mt-30 text-center no-ai gap-4">
+        <p class="leading-6">
+          This website was manually built with love and plain html, css & js. <br />No AI was used in the process.
+        </p>
+        <p>Thanks for reading.</p>
+        <img class="w-[24px]" src="./assets/heart.svg" alt="" />
+      </div>
+    </main>
+    <footer class="site-footer" role="contentinfo">
+      <div class="footer-container">
+        <a
+          class="icon-button"
+          href="https://www.linkedin.com/in/gonzalovc/"
+          target="_blank"
+          rel="noopener"
+          aria-label="LinkedIn"
+        >
+          <img src="./assets/linkedin.svg" alt="" />
+        </a>
+        <a class="icon-button" href="mailto:gonzalo.dcv@gmail.com" aria-label="Email">
+          <img src="./assets/mail.svg" alt="" />
+        </a>
+        <p class="footnote">Website design and content © 2025 Gonzalo Vásquez</p>
+      </div>
+    </footer>
+    <script src="script.js" defer></script>
+  </body>
+</html>

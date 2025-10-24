@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gonzalo Vasquez - Portfolio | Figma components, plugins and trainings</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Inter:wght@400&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+    <!-- <link rel="stylesheet" href="dist/tailwind.css"> -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body>
+    <div class="relative z-2">
+      <header class="site-header fixed! fixed top-0 right-0 left-0 backdrop-blur-md" role="banner">
+        <div class="header-container px-4 py-4 sm:px-8 gap-6 md:gap-16">
+          <a href="index.html" class="logo" aria-label="Home">
+            <img src="./assets/logo.svg" alt="" />
+          </a>
+
+          <nav class="primary-nav" aria-label="Primary">
+            <ul class="nav-links gap-3 md:gap-6">
+              <li><a href="index.html">Work</a></li>
+              <li><a href="index.html#talks">Talks</a></li>
+              <li><a href="index.html#articles">Articles</a></li>
+              <li><a href="about.html">About me</a></li>
+            </ul>
+          </nav>
+
+          <div class="header-actions hidden sm:flex">
+            <a
+              class="icon-button"
+              href="https://www.linkedin.com/in/gonzalovc/"
+              target="_blank"
+              rel="noopener"
+              aria-label="LinkedIn"
+            >
+              <img src="./assets/linkedin.svg" alt="" />
+            </a>
+            <a class="icon-button" href="mailto:gonzalo.dcv@gmail.com" aria-label="Email">
+              <img src="./assets/mail.svg" alt="" />
+            </a>
+          </div>
+        </div>
+      </header>
+    </div>
+
+    <main class="mx-auto max-w-[1280px] px-4 sm:px-8">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="container hero-stack">
+          <div class="heading-links w-full">
+            <div class="headings w-full lg:w-[1012px]">
+              <div class="flex flex-col gap-4 w-full">
+                <h1 id="hero-title" class="text-5xl md:text-6xl font-bold">Figma components, plugins and trainings</h1>
+                <p class="hero-sub text-4xl sm:text-[46px] w-full py-0">My Figma tooling work</p>
+              </div>
+              <div class="hero-intro">
+                <p>
+                  This is a collection of different work around Figma. From adaptive and responsive components, managing
+                  libraries versions and Figma plugins.
+                </p>
+              </div>
+            </div>
+          </div>
+          <img src="./assets/figma-hero.png" alt="" />
+        </div>
+      </section>
+
+      <section class="work-content mt-16 lg:mt-30">
+        <h2 class="section-title text-3xl md:text-[48px] mb-6!">My role, achievements and outcomes</h2>
+        <p class="talk-desc mb-6!">
+          I led the work setting our ZDS figma libraries, tokens (variables, components properties, etc.) I put in place
+          a changelog and a branching process for our updates and explorations. I also set up a plan to integrate future
+          versions of the library and a migration plan without touching the current one so it won’t break our consumers
+          experience.
+        </p>
+        <p class="talk-desc mb-6!">
+          I created a plugin to migrate from figma colour styles to variables. And also a plugin to swap an update our
+          tokens version following our style dictionary repository.
+        </p>
+        <p class="talk-desc mb-6!">
+          I also set up our typography variables to allow the 200% mode to emulate text resizing so our designers could
+          test this accessibility feature in advance.
+        </p>
+        <p class="talk-desc mb-6!">
+          Finally, I led the Figma training during 3 seasons for the Zalando design community where I level up product
+          and content designers to make the most use of Figma advanced features like Autolayout, Components, Variables
+          and Prototyping. Now I’m part of the team recording vide training about these and other topics. These videos
+          are part of an official training in Workday for our community. On top of this, I have done workshops about how
+          to build Figma plugins and how to use AI tools like Cursor so designers cna build their own ideas having deep
+          technical knowledge.
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-9 max-w-[1100px] mt-6">
+          <div class="rounded-xl p-3 project-info flex flex-col items-center gap-2">
+            <p>Figma plugins</p>
+            <p class="text-7xl">3</p>
+            <p class="text-[14px] detail-text">Styles to variables, Tokens sync, Links organiser.</p>
+          </div>
+          <div class="rounded-xl p-3 project-info flex flex-col items-center gap-2">
+            <p>Recorded videos</p>
+            <p class="text-7xl">12</p>
+            <p class="text-[14px] detail-text">I recorded videos for Figma training covering advanced features.</p>
+          </div>
+          <div class="rounded-xl p-3 project-info flex flex-col items-center gap-2">
+            <p>Designers trained</p>
+            <p class="text-7xl">80+</p>
+            <p class="text-[14px] detail-text">I led a Level-up Figma training for product and content designers.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="work-content mt-16 lg:mt-30">
+        <h2 class="section-title text-3xl md:text-[48px] mb-6!">Migration plugin</h2>
+        <div class="talk-desc rounded-xl p-3 project-info flex flex-col max-w-[700px]">
+          <p>
+            <span class="font-bold">Problem:</span> Migrate styles to variables was a manual process that would consume
+            hours form our designers day.
+          </p>
+        </div>
+        <p class="talk-desc mt-6!">
+          This tool helps migrating mocks using colour styles to variables (tokens). The plugin helped designers to save
+          many hours of manual work and was widely used in the early days once we launched design tokens boosting their
+          adoption from day one.
+        </p>
+        <!-- <img class="rounded-2xl mt-6!" src="./assets/figma-hero.png" alt="" /> -->
+        <figure class="rounded-2xl mt-6!">
+          <video
+            class="rounded-2xl"
+            src="assets/plugin-1.mp4"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+            aria-label="Conference talk on stage"
+          ></video>
+        </figure>
+      </section>
+
+      <section class="work-content mt-16 lg:mt-30">
+        <h2 class="section-title text-3xl md:text-[48px] mb-6!">Tokens manager plugin</h2>
+        <div class="talk-desc rounded-xl p-3 project-info flex flex-col max-w-[700px]">
+          <p>
+            <span class="font-bold">Problem:</span> Keeping our design tokens in sync with our code repository was a
+            challenging manual work. Having 8 modes for our 3 themes, making changes and updates was prone to errors,
+            easy to miss and hard to track what was done. On top of that having multiple Style dictionary folders made
+            impossible to keep track of the different versions.
+          </p>
+        </div>
+        <p class="talk-desc mt-6!">
+          This plugin sync our tokens repo with our variables in our Figma library. Beside this it can swap the tokens
+          override to one of the different Style dictionary versions of our tokens that are currently used for the A/B
+          tests that are set before the full launch the Zalando bran refresh. These dictionaries include new typography,
+          updated and removed colours, adding border radius among other changes.
+        </p>
+        <figure class="rounded-2xl mt-6!">
+          <video
+            class="rounded-2xl"
+            src="assets/plugin-2.mp4"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+            aria-label="Conference talk on stage"
+          ></video>
+        </figure>
+      </section>
+
+      <section class="work-content mt-16 lg:mt-30">
+        <h2 class="section-title text-3xl md:text-[48px] mb-6!">Figma advanced components</h2>
+        <div class="talk-desc rounded-xl p-3 project-info flex flex-col max-w-[700px]">
+          <p>
+            <span class="font-bold">Problem:</span> Outdated components would have multiple variants with not the right
+            properties. Updating them to make use of tokens and 200% mode and a11y features was an impossible tasks.
+          </p>
+        </div>
+        <p class="talk-desc mt-6!">
+          I explored creating more flexible and fully responsive components. This was mainly done for some of our core
+          e-comerce components like Product cards where we went from having 13 separate components with around 100
+          variants in total to 1 component and 6 variants. Also, our Showstopper component was redesigned to be fully
+          responsive going form 48 to 4 variants.
+        </p>
+        <figure class="rounded-2xl mt-6!">
+          <video
+            class="rounded-2xl"
+            src="assets/components-1.mp4"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+            aria-label="Conference talk on stage"
+          ></video>
+        </figure>
+        <figure class="rounded-2xl mt-3!">
+          <video
+            class="rounded-2xl"
+            src="assets/components-2.mp4"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+            aria-label="Conference talk on stage"
+          ></video>
+        </figure>
+        <figure class="rounded-2xl mt-3!">
+          <video
+            class="rounded-2xl"
+            src="assets/components-3.mp4"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+            aria-label="Conference talk on stage"
+          ></video>
+        </figure>
+      </section>
+
+      <section class="work-content mt-16 lg:mt-30">
+        <h2 class="section-title text-3xl md:text-[48px] mb-6!">ZDS Next library</h2>
+        <div class="talk-desc rounded-xl p-3 project-info flex flex-col max-w-[700px]">
+          <p>
+            <span class="font-bold">Problem:</span> We needed to reflect the incoming brand refresh features in our
+            Figma libraries without disturbing the use ad state of the current library.
+          </p>
+        </div>
+        <p class="talk-desc mt-6!">
+          I setup the workflow to maintain a separate library and how the migration would happen. This was an invite
+          access only to provide controlled teams explorations and to track adoption trough Figma analytics. This
+          included communicating this to our design community, train my team on how to maitin the updates and do the
+          migration once all the updates were released.
+        </p>
+        <img class="rounded-2xl mt-6!" src="./assets/library-1.png" alt="" />
+        <p class="talk-desc mt-6!">How features will be launched</p>
+        <img class="rounded-2xl mt-3!" src="./assets/library-2.png" alt="" />
+      </section>
+      <section class="mt-16 lg:mt-30 flex flex-col md:flex-row justify-start opacity-50 gap-4">
+        <a class="underline-offset-8 u flex flex-row gap-2" href="work-3.html">
+          <p class="text-xl lg:text-2xl">Prev: Immersive dark mode & accessibility</p>
+        </a>
+      </section>
+      <div class="flex flex-col items-center max-w-[4768px] mt-16 lg:mt-30 text-center no-ai gap-4">
+        <p class="leading-6">
+          This website was manually built with love and plain html, css & js. <br />No AI was used in the process.
+        </p>
+        <p>Thanks for reading.</p>
+        <img class="w-[24px]" src="./assets/heart.svg" alt="" />
+      </div>
+    </main>
+    <footer class="site-footer" role="contentinfo">
+      <div class="footer-container">
+        <a
+          class="icon-button"
+          href="https://www.linkedin.com/in/gonzalovc/"
+          target="_blank"
+          rel="noopener"
+          aria-label="LinkedIn"
+        >
+          <img src="./assets/linkedin.svg" alt="" />
+        </a>
+        <a class="icon-button" href="mailto:gonzalo.dcv@gmail.com" aria-label="Email">
+          <img src="./assets/mail.svg" alt="" />
+        </a>
+        <p class="footnote">Website design and content © 2025 Gonzalo Vásquez</p>
+      </div>
+    </footer>
+  </body>
+</html>

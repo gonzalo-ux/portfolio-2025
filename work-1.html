@@ -16,19 +16,19 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
   <body>
-    <div class="relative">
-      <header class="shadow-xl site-header fixed! fixed top-0 right-0 left-0" role="banner">
+    <div class="relative z-2">
+      <header class="site-header fixed! fixed top-0 right-0 left-0 backdrop-blur-md" role="banner">
         <div class="header-container px-4 py-4 sm:px-8 gap-6 md:gap-16">
-          <a href="#" class="logo" aria-label="Home">
+          <a href="index.html" class="logo" aria-label="Home">
             <img src="./assets/logo.svg" alt="" />
           </a>
 
           <nav class="primary-nav" aria-label="Primary">
             <ul class="nav-links gap-3 md:gap-6">
-              <li><a class="current" href="#work">Work</a></li>
-              <li><a href="#talks">Talks</a></li>
-              <li><a href="#articles">Articles</a></li>
-              <li><a href="#about">About me</a></li>
+              <li><a href="index.html">Work</a></li>
+              <li><a href="index.html#talks">Talks</a></li>
+              <li><a href="index.html#articles">Articles</a></li>
+              <li><a href="about.html">About me</a></li>
             </ul>
           </nav>
 
@@ -74,10 +74,15 @@
             </div>
           </div>
           <div class="quick-links" aria-label="Quick links">
-            <div class="quick-links-row gap-2">
-              <a class="u" href="https://www.linkedin.com" target="_blank" rel="noopener">Check the Config talk </a>
-              <span aria-hidden="true">•</span>
-              <a class="u" href="mailto:hello@gonzalo.com">Read the medium article </a>
+            <div class="quick-links-row gap-2 flex! flex-col! sm:flex-row!">
+              <a class="u" href="https://youtu.be/En-aD9KDIsE" target="_blank" rel="noopener">Check the Config talk </a>
+              <span aria-hidden="true" class="hidden sm:flex">•</span>
+              <a
+                class="u mt-4! sm:mt-0!"
+                href="https://medium.com/zalando-design/bringing-more-character-to-the-zalando-design-system-with-theming-e69e18359c39"
+                target="_blank"
+                >Read the medium article
+              </a>
             </div>
           </div>
           <figure class="rounded-2xl">
@@ -138,7 +143,7 @@
           journey or premises presented to customers, like Sports, Zalando Plus, Luxury items (Designer), Beauty or
           Zalando stories through theming using design tokens. On top of this, once Zalando jumped into a full brand
           refresh project my work allowed a super fast way to update our colours, font family, typography styles and
-          components from a central place using different Style dictionaries setups enabling multi A/B testing without
+          components from a central place using different Style dictionary setups enabling multi A/B testing without
           rewriting the front end.
         </p>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-9 max-w-[900px]">
@@ -176,7 +181,8 @@
             <li>Help external engineering teams to migrate their tiles and compositions to use tokens</li>
           </ul>
         </div>
-        <div class="flex justify-center mt-6">
+        <p class="text-xl mt-6!">We presented this work in Config 2024 in front of 3,200 people.</p>
+        <div class="flex justify-center mt-3">
           <iframe
             class="rounded-2xl aspect-video w-full h-full"
             width="1234"
@@ -204,11 +210,11 @@
         <div class="mt-6">
           <p>
             Concepts like design tokens and theming can have different meaning depending on the context (system) and
-            people understanding o platform capacities like dark mode. This makes crucial to define these terms as a
-            team to use them consistently in documents, conversations and presentations so teams outside the system team
-            can familiarise with the meaning, usage and benefits. My work consisted on unifying (with the help of my
-            team) documenting and presenting these concepts to the engineering and design community. Some of these
-            definitions are:
+            people understanding platform capacities like dark mode. This makes crucial to define these terms as a team
+            to use them consistently in documents, conversations and presentations so teams outside the system team can
+            familiarise with the meaning, usage and benefits. My work consisted on unifying (with the help of my team)
+            documenting and presenting these concepts to the engineering and design community. Some of these definitions
+            are:
           </p>
         </div>
         <div class="mt-6">
@@ -359,13 +365,26 @@
         </div>
         <div class="mt-6">
           <p class="text-[18px]">
-            I introduced Zalando’s design community how to make use of design tokens and how to apply theming.
+            I introduced Zalando’s design community how to make use of design tokens and how to apply theming. I also
+            created a plugin to sync our variables to our style dictionary repo.
           </p>
           <img class="mt-3" src="./assets/figma-tokens-example.png" alt="" />
           <figure class="rounded-2xl mt-3!">
             <video
               class="rounded-2xl"
               src="assets/figma-library.mp4"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="auto"
+              aria-label="Conference talk on stage"
+            ></video>
+          </figure>
+          <figure class="rounded-2xl mt-3!">
+            <video
+              class="rounded-2xl"
+              src="assets/plugin-2.mp4"
               autoplay
               muted
               loop
@@ -381,7 +400,36 @@
           <img class="mt-3 rounded-2xl" src="./assets/tokens-spec.png" alt="" />
         </div>
       </section>
+      <section class="mt-16 lg:mt-30 flex justify-end opacity-50 gap-2">
+        <a class="underline-offset-8 u flex flex-row gap-2" href="work-2.html">
+          <p class="text-xl lg:text-2xl">Next: Unified documentation</p>
+        </a>
+      </section>
+      <div class="flex flex-col items-center max-w-[4768px] mt-16 lg:mt-30 text-center no-ai gap-4">
+        <p class="leading-6">
+          This website was manually built with love and plain html, css & js. <br />No AI was used in the process.
+        </p>
+        <p>Thanks for reading.</p>
+        <img class="w-[24px]" src="./assets/heart.svg" alt="" />
+      </div>
     </main>
+    <footer class="site-footer" role="contentinfo">
+      <div class="footer-container">
+        <a
+          class="icon-button"
+          href="https://www.linkedin.com/in/gonzalovc/"
+          target="_blank"
+          rel="noopener"
+          aria-label="LinkedIn"
+        >
+          <img src="./assets/linkedin.svg" alt="" />
+        </a>
+        <a class="icon-button" href="mailto:gonzalo.dcv@gmail.com" aria-label="Email">
+          <img src="./assets/mail.svg" alt="" />
+        </a>
+        <p class="footnote">Website design and content © 2025 Gonzalo Vásquez</p>
+      </div>
+    </footer>
     <script src="script.js" defer></script>
   </body>
 </html>
