@@ -3,7 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gonzalo Vasquez - Portfolio | Design tokens and multi theme architecture</title>
+    <title>
+      Gonzalo Vasquez - Portfolio | Design tokens and multi theme architecture
+    </title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,14 +19,17 @@
   </head>
   <body>
     <div class="relative z-2">
-      <header class="site-header fixed! fixed top-0 right-0 left-0 backdrop-blur-md" role="banner">
+      <header
+        class="site-header fixed! fixed top-0 right-0 left-0 backdrop-blur-md"
+        role="banner"
+      >
         <div class="header-container px-4 py-4 sm:px-8 gap-6 md:gap-16">
           <a href="index.html" class="logo" aria-label="Home">
             <img src="./assets/logo.svg" alt="" />
           </a>
 
           <nav class="primary-nav" aria-label="Primary">
-            <ul class="nav-links gap-3 md:gap-6">
+            <ul class="nav-links gap-3 md:gap-6 text-md md:text-xl">
               <li><a href="index.html">Work</a></li>
               <li><a href="index.html#talks">Talks</a></li>
               <li><a href="index.html#articles">Articles</a></li>
@@ -42,7 +47,11 @@
             >
               <img src="./assets/linkedin.svg" alt="" />
             </a>
-            <a class="icon-button" href="mailto:gonzalo.dcv@gmail.com" aria-label="Email">
+            <a
+              class="icon-button"
+              href="mailto:gonzalo.dcv@gmail.com"
+              aria-label="Email"
+            >
               <img src="./assets/mail.svg" alt="" />
             </a>
           </div>
@@ -60,22 +69,32 @@
                   Design tokens and multi theme architecture
                 </h1>
                 <p class="hero-sub text-4xl sm:text-[46px] w-full py-0">
-                  From a consistent to a cohesive and configurable visual language
+                  From a consistent to a cohesive and configurable visual
+                  language
                 </p>
               </div>
               <div class="hero-intro">
                 <p>
-                  This is a tale about how I introduced flexibility (design tokens and theming) on the Zalando fashion
-                  store visual language. Enabled teams to differentiate customer experiences and boost revenue allowing
-                  Zalando to explore new markets quickly while removing custom ad-hoc solutions. All this from a central
-                  theming architecture running on Web, iOS, Android and Figma.
+                  This is a tale about how I introduced flexibility (design
+                  tokens and theming) on the Zalando fashion store visual
+                  language. Enabled teams to differentiate customer experiences
+                  and boost revenue allowing Zalando to explore new markets
+                  quickly while removing custom ad-hoc solutions. All this from
+                  a central theming architecture running on Web, iOS, Android
+                  and Figma.
                 </p>
               </div>
             </div>
           </div>
           <div class="quick-links" aria-label="Quick links">
             <div class="quick-links-row gap-2 flex! flex-col! sm:flex-row!">
-              <a class="u" href="https://youtu.be/En-aD9KDIsE" target="_blank" rel="noopener">Check the Config talk </a>
+              <a
+                class="u"
+                href="https://youtu.be/En-aD9KDIsE"
+                target="_blank"
+                rel="noopener"
+                >Check the Config talk
+              </a>
               <span aria-hidden="true" class="hidden sm:flex">•</span>
               <a
                 class="u mt-4! sm:mt-0!"
@@ -102,18 +121,27 @@
 
       <section class="work-content mt-16 lg:mt-30">
         <p class="text-2xl challenge">The challenge</p>
-        <h2 class="section-title text-3xl md:text-[48px] mb-6!">When consistency was no longer enough</h2>
+        <h2 class="section-title text-3xl md:text-[48px] mb-6!">
+          When consistency was no longer enough
+        </h2>
         <p class="talk-desc">
-          Before my time, Zalando had a single visual global language (theme) that was meant to deliver consistent
-          customer experiences across journeys and platforms. And even though this was working fine there was already
-          many teams pushing the boundaries through differentiation to gain customers attention and to present product
-          features as special and tailored experiences. These teams were implementing custom solutions that were almost
-          impossible to maintain and scale due to local overrides and duplications, that at the same time were bloating
+          Before my time, Zalando had a single visual global language (theme)
+          that was meant to deliver consistent customer experiences across
+          journeys and platforms. And even though this was working fine there
+          was already many teams pushing the boundaries through differentiation
+          to gain customers attention and to present product features as special
+          and tailored experiences. These teams were implementing custom
+          solutions that were almost impossible to maintain and scale due to
+          local overrides and duplications, that at the same time were bloating
           the app with disjointed experiences and contrasting results.
         </p>
-        <p class="talk-desc font-bold my-6!">With the previous technical solution we had the following problems:</p>
+        <p class="talk-desc font-bold my-6!">
+          With the previous technical solution we had the following problems:
+        </p>
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-9 max-w-[800px]">
-          <div class="rounded-xl p-3 project-info flex flex-col items-center gap-2">
+          <div
+            class="rounded-xl p-3 project-info flex flex-col items-center gap-2"
+          >
             <p>Local overrides scattered among projects.</p>
           </div>
           <div class="rounded-xl p-3 project-info">
@@ -135,53 +163,88 @@
       </section>
 
       <section class="work-content mt-16 lg:mt-30">
-        <h2 class="section-title text-3xl md:text-[48px] mb-6!">My role, achievements and outcomes</h2>
+        <h2 class="section-title text-3xl md:text-[48px] mb-6!">
+          My role, achievements and outcomes
+        </h2>
         <p class="talk-desc mb-6!">
-          My work made possible to deliver different experiences through a configurable visual language or what we call
-          themes. I led our design tokens architecture exploration, naming, library set up, design tooling, etc. I
-          helped feature teams to explore and build quick variations of how Zalando may look depending of the user
-          journey or premises presented to customers, like Sports, Zalando Plus, Luxury items (Designer), Beauty or
-          Zalando stories through theming using design tokens. On top of this, once Zalando jumped into a full brand
-          refresh project my work allowed a super fast way to update our colours, font family, typography styles and
-          components from a central place using different Style dictionary setups enabling multi A/B testing without
-          rewriting the front end.
+          My work made possible to deliver different experiences through a
+          configurable visual language or what we call themes. I led our design
+          tokens architecture exploration, naming, library set up, design
+          tooling, etc. I helped feature teams to explore and build quick
+          variations of how Zalando may look depending of the user journey or
+          premises presented to customers, like Sports, Zalando Plus, Luxury
+          items (Designer), Beauty or Zalando stories through theming using
+          design tokens. On top of this, once Zalando jumped into a full brand
+          refresh project my work allowed a super fast way to update our
+          colours, font family, typography styles and components from a central
+          place using different Style dictionary setups enabling multi A/B
+          testing without rewriting the front end.
         </p>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-9 max-w-[900px]">
-          <div class="rounded-xl p-3 project-info flex flex-col items-center gap-2">
+          <div
+            class="rounded-xl p-3 project-info flex flex-col items-center gap-2"
+          >
             <p>New Zalando experiences</p>
             <p class="text-7xl">1 → 4</p>
-            <p class="text-[14px] detail-text">3 new different CX (themes) were launched in the first 2 years.</p>
+            <p class="text-[14px] detail-text">
+              3 new different CX (themes) were launched in the first 2 years.
+            </p>
           </div>
-          <div class="rounded-xl p-3 project-info flex flex-col items-center gap-2">
+          <div
+            class="rounded-xl p-3 project-info flex flex-col items-center gap-2"
+          >
             <p>Engagement</p>
             <p class="text-7xl">2x</p>
             <p class="text-[14px] detail-text">
-              First new theme double the engagement from customers and brand partners.
+              First new theme double the engagement from customers and brand
+              partners.
             </p>
           </div>
-          <div class="rounded-xl p-3 project-info flex flex-col items-center gap-2">
+          <div
+            class="rounded-xl p-3 project-info flex flex-col items-center gap-2"
+          >
             <p>New brands onboarded</p>
             <p class="text-7xl">40+</p>
-            <p class="text-[14px] detail-text">Designer theme allowed Zalando to add 40 new luxury brands.</p>
+            <p class="text-[14px] detail-text">
+              Designer theme allowed Zalando to add 40 new luxury brands.
+            </p>
           </div>
         </div>
         <div class="work-list mt-6">
-          <p class="font-bold text-xl mb-2!">My work as design prime consisted in:</p>
+          <p class="font-bold text-xl mb-2!">
+            My work as design prime consisted in:
+          </p>
           <ul class="list-disc list-inside">
-            <li>Define design tokens nomenclature, component specs and documentation</li>
+            <li>
+              Define design tokens nomenclature, component specs and
+              documentation
+            </li>
             <li>Design semantic and component tokens architecture</li>
             <li>Consolidate theming and colour schemes definitions</li>
-            <li>User test tokens nomenclature, structure and theming in Figma</li>
-            <li>Translate design tokens as Figma variables and themes as modes in the ZDS Figma libraries</li>
             <li>
-              Communicate to the design community through deep dives and present to lead designers the benefits of using
-              ZDS tokens
+              User test tokens nomenclature, structure and theming in Figma
             </li>
-            <li>Build Figma tooling to allow migration from colour styles to colour tokens (variables)</li>
-            <li>Help external engineering teams to migrate their tiles and compositions to use tokens</li>
+            <li>
+              Translate design tokens as Figma variables and themes as modes in
+              the ZDS Figma libraries
+            </li>
+            <li>
+              Communicate to the design community through deep dives and present
+              to lead designers the benefits of using ZDS tokens
+            </li>
+            <li>
+              Build Figma tooling to allow migration from colour styles to
+              colour tokens (variables)
+            </li>
+            <li>
+              Help external engineering teams to migrate their tiles and
+              compositions to use tokens
+            </li>
           </ul>
         </div>
-        <p class="text-xl mt-6!">We presented this work in Config 2024 in front of 3,200 people.</p>
+        <p class="text-xl mt-6!">
+          We presented this work in Config 2024 in front of 3,200 people.
+        </p>
         <div class="flex justify-center mt-3">
           <iframe
             class="rounded-2xl aspect-video w-full h-full"
@@ -198,23 +261,30 @@
       </section>
 
       <section class="work-content mt-16 lg:mt-30">
-        <h2 class="section-title text-3xl md:text-[48px] mb-6!">Defining the concepts that would guide us</h2>
+        <h2 class="section-title text-3xl md:text-[48px] mb-6!">
+          Defining the concepts that would guide us
+        </h2>
         <div class="work-list mt-6">
           <p class="font-bold text-[18px] mb-2!">Responsible for:</p>
           <ul class="list-disc list-inside">
             <li>Led workshop to define theming principles</li>
-            <li>Defined and documented key concepts like design tokens, themes and colour schemes</li>
+            <li>
+              Defined and documented key concepts like design tokens, themes and
+              colour schemes
+            </li>
             <li>Organised semantic and component tokens</li>
           </ul>
         </div>
         <div class="mt-6">
           <p>
-            Concepts like design tokens and theming can have different meaning depending on the context (system) and
-            people understanding platform capacities like dark mode. This makes crucial to define these terms as a team
-            to use them consistently in documents, conversations and presentations so teams outside the system team can
-            familiarise with the meaning, usage and benefits. My work consisted on unifying (with the help of my team)
-            documenting and presenting these concepts to the engineering and design community. Some of these definitions
-            are:
+            Concepts like design tokens and theming can have different meaning
+            depending on the context (system) and people understanding platform
+            capacities like dark mode. This makes crucial to define these terms
+            as a team to use them consistently in documents, conversations and
+            presentations so teams outside the system team can familiarise with
+            the meaning, usage and benefits. My work consisted on unifying (with
+            the help of my team) documenting and presenting these concepts to
+            the engineering and design community. Some of these definitions are:
           </p>
         </div>
         <div class="mt-6">
@@ -222,25 +292,37 @@
           <div class="project-info p-6 rounded-2xl max-w-[700px] mt-3">
             <ol class="list-decimal">
               <li class="mb-3!">
-                “Is a defined set of changes in our design system visual language – retaining the same functionalities
-                and structure of the design system”
+                “Is a defined set of changes in our design system visual
+                language – retaining the same functionalities and structure of
+                the design system”
               </li>
-              <li class="mb-3!">“Provides a distinctive and tailored look and feel for propositions or premises”</li>
-              <li>“Maintains coherency with overall brand identity of Zalando ”</li>
+              <li class="mb-3!">
+                “Provides a distinctive and tailored look and feel for
+                propositions or premises”
+              </li>
+              <li>
+                “Maintains coherency with overall brand identity of Zalando ”
+              </li>
             </ol>
           </div>
         </div>
         <div class="mt-6">
           <p class="font-bold text-[18px]">Colour scheme definition</p>
           <div class="project-info p-6 rounded-2xl mt-3 inline-block">
-            <p>“A colour scheme is a subset of a theme that only affects colours.”</p>
+            <p>
+              “A colour scheme is a subset of a theme that only affects
+              colours.”
+            </p>
           </div>
         </div>
         <div class="mt-6">
           <p class="font-bold text-[18px]">Design tokens definition</p>
           <div class="project-info p-6 rounded-2xl mt-3 inline-block">
             <ul class="list-disc list-inside">
-              <li>Are fundamental design attributes e.g. spacing, colour, typography etc.</li>
+              <li>
+                Are fundamental design attributes e.g. spacing, colour,
+                typography etc.
+              </li>
               <li>Captured in a platform-agnostic format</li>
               <li>They help ensure internal and cross-platform consistency</li>
               <li>And are a necessary building block to construct theming</li>
@@ -248,44 +330,69 @@
           </div>
         </div>
         <div class="mt-6">
-          <p class="text-[18px]">Semantic and Component tokens naming framework</p>
+          <p class="text-[18px]">
+            Semantic and Component tokens naming framework
+          </p>
           <img class="mt-3" src="./assets/tokens-naming-framework.png" alt="" />
         </div>
         <div class="mt-6">
           <p class="text-[18px]">Design tokens applied</p>
           <div class="grid grid-flow-col grid-cols-5 grid-rows-2 gap-4 mt-3">
-            <img class="col-span-3" src="./assets/tokens-appied-01.png" alt="" />
-            <img class="col-span-3" src="./assets/tokens-appied-02.png" alt="" />
-            <img class="col-span-2 row-span-3" src="./assets/tokens-appied-03.png" alt="" />
+            <img
+              class="col-span-3"
+              src="./assets/tokens-appied-01.png"
+              alt=""
+            />
+            <img
+              class="col-span-3"
+              src="./assets/tokens-appied-02.png"
+              alt=""
+            />
+            <img
+              class="col-span-2 row-span-3"
+              src="./assets/tokens-appied-03.png"
+              alt=""
+            />
           </div>
         </div>
       </section>
       <section class="work-content mt-16 lg:mt-30">
-        <h2 class="section-title text-3xl md:text-[48px] mb-6!">Building smarter and flexible themes</h2>
+        <h2 class="section-title text-3xl md:text-[48px] mb-6!">
+          Building smarter and flexible themes
+        </h2>
         <div class="work-list mt-6">
           <p class="font-bold text-xl mb-2!">Responsible for:</p>
           <ul class="list-disc list-inside">
             <li>How theming and overrides would work</li>
             <li>Applied tokens to all of our Figma components</li>
-            <li>Setting monochrome and dark mode colour schemes for each theme</li>
-            <li>Define the specs for first theme (Designer theme) to be launched</li>
+            <li>
+              Setting monochrome and dark mode colour schemes for each theme
+            </li>
+            <li>
+              Define the specs for first theme (Designer theme) to be launched
+            </li>
           </ul>
         </div>
         <div class="mt-6">
-          <p class="text-[18px]">1 set of tokens helped us to build 3 different themes: Base, Designer and Stories.</p>
+          <p class="text-[18px]">
+            1 set of tokens helped us to build 3 different themes: Base,
+            Designer and Stories.
+          </p>
           <img class="mt-3" src="./assets/3-themes.png" alt="" />
         </div>
         <div class="mt-6">
           <p class="text-[18px]">
-            Base theme, had initially 3 colour schemes. Default, monochrome light and monochrome dark. The last two were
-            meant to work with our Colour snap feature that grab colours from the product images, this way we’ll always
-            ensure the right contrast.
+            Base theme, had initially 3 colour schemes. Default, monochrome
+            light and monochrome dark. The last two were meant to work with our
+            Colour snap feature that grab colours from the product images, this
+            way we’ll always ensure the right contrast.
           </p>
           <img class="mt-3" src="./assets/colour-schemes.png" alt="" />
         </div>
         <div class="mt-6">
           <p class="text-[18px]">
-            These colour schemes allowed us to make any UI work with any background from the colour snap algorithm.
+            These colour schemes allowed us to make any UI work with any
+            background from the colour snap algorithm.
           </p>
           <figure class="rounded-2xl">
             <video
@@ -302,9 +409,10 @@
         </div>
         <div class="mt-6">
           <p class="text-[18px]">
-            Designer theme was designed to showcase luxury items and it would only appear on some selected Zalando
-            premises. I was also part of the feature team designing this luxury experience and how this new theme will
-            be express through token as the first new theme.
+            Designer theme was designed to showcase luxury items and it would
+            only appear on some selected Zalando premises. I was also part of
+            the feature team designing this luxury experience and how this new
+            theme will be express through token as the first new theme.
           </p>
           <img class="mt-3" src="./assets/designer-theme-premises.png" alt="" />
           <figure class="rounded-2xl mt-3!">
@@ -322,16 +430,19 @@
         </div>
         <div class="mt-6">
           <p class="text-[18px]">
-            This the future look of Designer theme once Zalando brand refresh is completed, integrating border radius,
-            the new Zalando Sans font and dark mode.
+            This the future look of Designer theme once Zalando brand refresh is
+            completed, integrating border radius, the new Zalando Sans font and
+            dark mode.
           </p>
           <img class="mt-3" src="./assets/designer-refreshed.png" alt="" />
         </div>
         <div class="mt-6">
           <p class="text-[18px]">
-            Stories theme was created to present products through a more editorial POV aiming to bring fashion creators
-            and Gen Z customers through videos and articles. This theme is meant to always work on dark mode by default.
-            My work consisted on aligning how the tokens will change to represent the art direction the feature team was
+            Stories theme was created to present products through a more
+            editorial POV aiming to bring fashion creators and Gen Z customers
+            through videos and articles. This theme is meant to always work on
+            dark mode by default. My work consisted on aligning how the tokens
+            will change to represent the art direction the feature team was
             exploring.
           </p>
           <div class="grid grid-cols-4 gap-4">
@@ -347,26 +458,36 @@
                 aria-label="Conference talk on stage"
               ></video>
             </figure>
-            <img class="mt-3 col-span-4 lg:col-span-3" src="./assets/stories-theme.png" alt="" />
+            <img
+              class="mt-3 col-span-4 lg:col-span-3"
+              src="./assets/stories-theme.png"
+              alt=""
+            />
           </div>
         </div>
       </section>
 
       <section class="work-content mt-16 lg:mt-30">
-        <h2 class="section-title text-3xl md:text-[48px] mb-6!">How did I connect Figma to production code</h2>
+        <h2 class="section-title text-3xl md:text-[48px] mb-6!">
+          How did I connect Figma to production code
+        </h2>
         <div class="work-list mt-6">
           <p class="font-bold text-xl mb-2!">Responsible for:</p>
           <ul class="list-disc list-inside">
             <li>Setting Figma variables following our design tokens</li>
             <li>Designed themes and modes</li>
             <li>Built a Figma plugin to migrate styles to variables</li>
-            <li>Create style dictionary configuration compatible with figma through a Figma plugin</li>
+            <li>
+              Create style dictionary configuration compatible with figma
+              through a Figma plugin
+            </li>
           </ul>
         </div>
         <div class="mt-6">
           <p class="text-[18px]">
-            I introduced Zalando’s design community how to make use of design tokens and how to apply theming. I also
-            created a plugin to sync our variables to our style dictionary repo.
+            I introduced Zalando’s design community how to make use of design
+            tokens and how to apply theming. I also created a plugin to sync our
+            variables to our style dictionary repo.
           </p>
           <img class="mt-3" src="./assets/figma-tokens-example.png" alt="" />
           <figure class="rounded-2xl mt-3!">
@@ -394,8 +515,8 @@
             ></video>
           </figure>
           <p class="text-[18px] mt-6!">
-            I led design tokens translation to figma variables and created all the overrides for colours, typography,
-            spacing, components, etc.
+            I led design tokens translation to figma variables and created all
+            the overrides for colours, typography, spacing, components, etc.
           </p>
           <img class="mt-3 rounded-2xl" src="./assets/tokens-spec.png" alt="" />
         </div>
@@ -405,9 +526,12 @@
           <p class="text-xl lg:text-2xl">Next: Unified documentation</p>
         </a>
       </section>
-      <div class="flex flex-col items-center max-w-[4768px] mt-16 lg:mt-30 text-center no-ai gap-4">
+      <div
+        class="flex flex-col items-center max-w-[4768px] mt-16 lg:mt-30 text-center no-ai gap-4"
+      >
         <p class="leading-6">
-          This website was manually built with love and plain html, css & js. <br />No AI was used in the process.
+          This website was manually built with love and plain html, css & js.
+          <br />No AI was used in the process.
         </p>
         <p>Thanks for reading.</p>
         <img class="w-[24px]" src="./assets/heart.svg" alt="" />
@@ -424,10 +548,16 @@
         >
           <img src="./assets/linkedin.svg" alt="" />
         </a>
-        <a class="icon-button" href="mailto:gonzalo.dcv@gmail.com" aria-label="Email">
+        <a
+          class="icon-button"
+          href="mailto:gonzalo.dcv@gmail.com"
+          aria-label="Email"
+        >
           <img src="./assets/mail.svg" alt="" />
         </a>
-        <p class="footnote">Website design and content © 2025 Gonzalo Vásquez</p>
+        <p class="footnote">
+          Website design and content © 2025 Gonzalo Vásquez
+        </p>
       </div>
     </footer>
     <script src="script.js" defer></script>

@@ -37,8 +37,8 @@ body {
 
 body {
   margin: 0;
-  font-family: "Lato", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji",
-    "Segoe UI Emoji";
+  font-family: "Lato", system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
+    Arial, "Apple Color Emoji", "Segoe UI Emoji";
   color: var(--text);
   background: var(--bg);
 }
@@ -112,7 +112,7 @@ header {
 .nav-links a {
   color: var(--text);
   text-decoration: none;
-  font-size: 20px;
+  /* font-size: 20px; */
   line-height: 24px;
   white-space: nowrap;
 }
@@ -290,7 +290,7 @@ header {
 a.fake-anchor {
   display: block;
   position: relative;
-  top: 20px;
+  top: 0px;
   visibility: hidden;
 }
 
