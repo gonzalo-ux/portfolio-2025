@@ -37,8 +37,8 @@ body {
 
 body {
   margin: 0;
-  font-family: "Lato", system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
-    Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: "Lato", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji",
+    "Segoe UI Emoji";
   color: var(--text);
   background: var(--bg);
 }
@@ -249,6 +249,8 @@ header {
   display: flex;
   align-items: center;
   gap: var(--gap-cta);
+  color: var(--bg-mutted);
+  background-color: #008cff;
 }
 
 .hero-media {
@@ -328,6 +330,10 @@ a.fake-anchor {
   flex-direction: column;
   gap: var(--work-card-gap);
   /* width: var(--work-col-width); */
+}
+
+.card .accent {
+  color: var(--text);
 }
 .thumb {
   border-radius: 12px;
