@@ -1,134 +1,109 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K2Y47BSJPN"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
 
-      gtag("config", "G-K2Y47BSJPN");
-    </script>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gonzalo Vasquez - Portfolio | Unified documentation</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Inter:wght@400&display=swap"
-      rel="stylesheet"
-    />
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-K2Y47BSJPN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
 
-    <link rel="stylesheet" href="style.css" />
-    <!-- <link rel="stylesheet" href="dist/tailwind.css"> -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  </head>
-  <body>
-    <div class="relative z-2">
-      <header class="site-header fixed! fixed top-0 right-0 left-0 backdrop-blur-md" role="banner">
-        <div class="header-container px-4 py-4 sm:px-8 gap-6 md:gap-16">
-          <a href="index.html" class="logo" aria-label="Home">
-            <img src="./assets/logo.svg" alt="" />
+    gtag("config", "G-K2Y47BSJPN");
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gonzalo Vasquez - Portfolio | AI Prototypes Playground</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Inter:wght@400&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+  <!-- <link rel="stylesheet" href="dist/tailwind.css"> -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body>
+  <div class="relative z-2">
+    <header class="site-header fixed! fixed top-0 right-0 left-0 backdrop-blur-md" role="banner">
+      <div class="header-container px-4 py-4 sm:px-8 gap-6 md:gap-16">
+        <a href="index.html" class="logo" aria-label="Home">
+          <img src="./assets/logo.svg" alt="" />
+        </a>
+
+        <nav class="primary-nav" aria-label="Primary">
+          <ul class="nav-links gap-3 md:gap-6 text-md md:text-xl">
+            <li><a href="index.html">Work</a></li>
+            <li><a href="index.html#talks">Talks</a></li>
+            <li><a href="index.html#articles">Articles</a></li>
+            <li><a href="about.html">About me</a></li>
+          </ul>
+        </nav>
+
+        <div class="header-actions hidden sm:flex">
+          <a class="icon-button" href="https://www.linkedin.com/in/gonzalovc/" target="_blank" rel="noopener"
+            aria-label="LinkedIn">
+            <img src="./assets/linkedin.svg" alt="" />
           </a>
-
-          <nav class="primary-nav" aria-label="Primary">
-            <ul class="nav-links gap-3 md:gap-6 text-md md:text-xl">
-              <li><a href="index.html">Work</a></li>
-              <li><a href="index.html#talks">Talks</a></li>
-              <li><a href="index.html#articles">Articles</a></li>
-              <li><a href="about.html">About me</a></li>
-            </ul>
-          </nav>
-
-          <div class="header-actions hidden sm:flex">
-            <a
-              class="icon-button"
-              href="https://www.linkedin.com/in/gonzalovc/"
-              target="_blank"
-              rel="noopener"
-              aria-label="LinkedIn"
-            >
-              <img src="./assets/linkedin.svg" alt="" />
-            </a>
-            <a class="icon-button" href="mailto:gonzalo.dcv@gmail.com" aria-label="Email">
-              <img src="./assets/mail.svg" alt="" />
-            </a>
-          </div>
+          <a class="icon-button" href="mailto:gonzalo.dcv@gmail.com" aria-label="Email">
+            <img src="./assets/mail.svg" alt="" />
+          </a>
         </div>
-      </header>
-    </div>
+      </div>
+    </header>
+  </div>
 
-    <main class="mx-auto max-w-[1280px] px-4 sm:px-8">
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="container hero-stack">
-          <div class="heading-links w-full">
-            <div class="headings w-full lg:w-[1012px]">
-              <div class="flex flex-col gap-4 w-full">
-                <h1 id="hero-title" class="text-5xl md:text-6xl font-bold">Unified documentation</h1>
-                <p class="hero-sub text-4xl sm:text-[46px] w-full py-0">
-                  An internal product that streamlined and unified documentation for systems and brand teams
-                </p>
-              </div>
-              <div class="hero-intro">
-                <p>
-                  Along with my engineer partner we built a bespoke solution that allowed teams to create, manage and
-                  deploy documentation to separate websites through a CMS while embedding external sources giving them
-                  freedom to own and reuse content across sites.
-                </p>
-              </div>
+  <main class="mx-auto max-w-[1280px] px-4 sm:px-8">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container hero-stack">
+        <div class="heading-links w-full">
+          <div class="headings w-full lg:w-[1012px]">
+            <div class="flex flex-col gap-4 w-full">
+              <h1 id="hero-title" class="text-5xl md:text-6xl font-bold">AI Prototypes Playground</h1>
+              <p class="hero-sub text-4xl sm:text-[46px] w-full py-0">
+                An app to enable quick prototypes through Claude code using real data.
+              </p>
+            </div>
+            <div class="hero-intro">
+              <p>
+                I created an app that allows designers to build quick prototypes using the real design system
+                components, styles and tokens. It uses a set of skills along with MCPs to create prototypes and
+                templates using Figma designs or free prompting ideas. It also has a set of features to include real
+                data in prototypes using the Zalando API.
+              </p>
             </div>
           </div>
-          <div class="quick-links" aria-label="Quick links">
-            <div class="quick-links-row gap-2">
-              <a class="u" href="https://brand.zalando.com/" target="_blank" rel="noopener"
-                >Check the public Brand Zalando website (wip)
-              </a>
-            </div>
-          </div>
-          <figure class="rounded-2xl">
-            <video
-              class="rounded-2xl"
-              poster="./assets/work-2-hero-poster.jpg"
-              src="assets/work-2-hero.mp4"
-              autoplay
-              muted
-              loop
-              playsinline
-              preload="auto"
-              aria-label="Conference talk on stage"
-            ></video>
-          </figure>
         </div>
-      </section>
+        <figure class="rounded-2xl">
+          <video class="rounded-2xl" poster="./assets/work-2-hero-poster.jpg" src="assets/ai-1.mp4" autoplay muted loop
+            playsinline preload="auto" aria-label="Conference talk on stage"></video>
+        </figure>
+      </div>
+    </section>
 
-      <section class="work-content mt-16 lg:mt-30">
-        <p class="text-2xl challenge">The challenge</p>
-        <h2 class="section-title text-3xl md:text-[48px] mb-6!">We had scattered and disconnected documentation</h2>
-        <p class="talk-desc">
-          Since always the Zalando design system team had detailed documentation about, components, styles, patterns,
-          etc. However this documentation was scattered and separated by platform, a website for web, markdown files for
-          apps and Figma files for design. This made really hard to find the right answer for consumers and a big
-          headache for system creators to maintain these spaces of documentation. This was a shared pain among other
-          teams like the Zalando brand and the content teams where there will be multiple Google docs, PDFs, videos and
-          presentations containing important gudelines that were used internally and shared with external design
-          agencies.
-        </p>
-      </section>
+    <section class="work-content mt-16 lg:mt-30">
+      <p class="text-2xl challenge">The challenge</p>
+      <h2 class="section-title text-3xl md:text-[48px] mb-6!">Figma prototypes is time-consuming and limited</h2>
+      <p class="talk-desc">
+        Creating prototypes using Figma has many limitations, like using real data, gestures and interactive states,
+        among many others. It can also take a long time to get something working, and in complex prototypes, they are
+        hard to update later or share so others can expand on it. Besides this, there’s no simple way to document how
+        they are wired up, their functionality and features.
+      </p>
+    </section>
 
-      <section class="work-content mt-16 lg:mt-30">
-        <h2 class="section-title text-3xl md:text-[48px] mb-6!">My role, achievements and outcomes</h2>
-        <p class="talk-desc mb-6!">
-          I partnered with a front end engineer to built the whole product and reusable architecture from the ground up.
-          I designed all the screens and modules as content types (templates), including visual design, information
-          architecture and how the rules about to manage the content. I trained around 40 people about how to use our
-          solutions and the CMS and help to built Figma tooling to embed images, slides and prototypes on the website
-          from Figma and Google docs. I played the role of Design lead, Project manager, Content designer and Front-end
-          engineer.
-        </p>
-        <div class="grid grid-cols-1 sm:grid-cols-4 gap-9 max-w-[1100px]">
+    <section class="work-content mt-16 lg:mt-30">
+      <h2 class="section-title text-3xl md:text-[48px] mb-6!">Prototyping with production components</h2>
+      <p class="talk-desc mb-6!">
+        I created a node app using Claude code, where I connected our npm registry with all the components available
+        in code from the Zalando design system. I also included Figma code-connect for each component that exists in
+
+      </p>
+
+      <!-- <div class="grid grid-cols-1 sm:grid-cols-4 gap-9 max-w-[1100px]">
           <div class="rounded-xl p-3 project-info flex flex-col items-center gap-2">
             <p>Simplified documentation</p>
             <p class="text-7xl">6 → 1</p>
@@ -153,101 +128,129 @@
             <p class="text-7xl">3</p>
             <p class="text-[14px] detail-text">ZDS documentation, Brand and Writing guidelines websites.</p>
           </div>
-        </div>
-        <div class="work-list mt-6">
-          <p class="font-bold text-xl mb-2!">My work as design prime consisted in:</p>
-          <ul class="list-disc list-inside">
-            <li>Lead project management, features and roadmap</li>
-            <li>Organise tasks for web, iOS and Android engineers</li>
-            <li>Designed overall visual design for pages, sections and embedded content</li>
-            <li>Organised and map content and information architecture</li>
-            <li>Train engineers, product, brand and content designers to create , manage and deploy documentation</li>
-            <li>Design a draft mode feature, content management, formats and lifecycle</li>
-            <li>Create, edit and export video material</li>
-            <li>Enabled the public launch for the Zalando brand website</li>
-          </ul>
-        </div>
-      </section>
-
-      <section class="work-content mt-16 lg:mt-30">
-        <h2 class="section-title text-3xl md:text-[48px] mb-6!">Curating documentation and organising the content</h2>
-        <div class="work-list mt-6">
-          <p class="font-bold text-xl mb-2!">Responsible for:</p>
-          <ul class="list-disc list-inside">
-            <li>Organise content presentation, groups and overlaps</li>
-            <li>Define sitemap for 3 documentation websites, System, Brand and content</li>
-            <li>Design navigation, search and layout framework</li>
-          </ul>
-          <img class="mt-6" src="./assets/sitemap.png" alt="" />
-        </div>
-      </section>
-
-      <section class="work-content mt-16 lg:mt-30">
-        <h2 class="section-title text-3xl md:text-[48px] mb-6!">Setting the content management</h2>
-        <div class="work-list mt-6">
-          <p class="font-bold text-xl mb-2!">Responsible for:</p>
-          <ul class="list-disc list-inside">
-            <li>Design content management rules and content formats (static, dynamic, embedded, etc)</li>
-            <li>Define content lifecycle (create, edit, publish, maintain, etc)</li>
-            <li>Set shareable content process and document how to build pages in the CMS</li>
-          </ul>
-          <img class="mt-6" src="./assets/cms.png" alt="" />
-          <img class="mt-6" src="./assets/build-pages.png" alt="" />
-          <img class="mt-6" src="./assets/documentation-plugin.png" alt="" />
-        </div>
-      </section>
-
-      <section class="work-content mt-16 lg:mt-30">
-        <h2 class="section-title text-3xl md:text-[48px] mb-6!">Delivering 3 (much needed) documentation websites</h2>
-        <div class="work-list mt-6">
-          <p class="font-bold text-xl mb-2!">Responsible for:</p>
-          <ul class="list-disc list-inside">
-            <li>Design visual design and templates for 3 documentation websites</li>
-            <li>Add content into CMS, set Figma library for embedded managed though a plugin connected to the CMS</li>
-            <li>Publish and maintain content</li>
-          </ul>
-          <p class="font-bold text-[18px] mt-6!">Zalando Brand hub</p>
-          <img class="mt-3" src="./assets/brand-hub.png" alt="" />
-          <p class="font-bold text-[18px] mt-6!">Zalando design system (ZDS) documentation</p>
-          <img class="mt-3" src="./assets/zds-doc.png" alt="" />
-          <p class="font-bold text-[18px] mt-6!">Zalando Writing guides</p>
-          <img class="mt-3" src="./assets/writing-doc.png" alt="" />
-        </div>
-      </section>
-      <section class="mt-16 lg:mt-30 flex flex-col md:flex-row justify-between opacity-50 gap-4">
-        <a class="underline-offset-8 u flex flex-row gap-2" href="work-1.html">
-          <p class="text-xl lg:text-2xl">Prev: Design tokens and multi theme architecture</p>
-        </a>
-        <a class="underline-offset-8 u flex flex-row gap-2" href="work-3.html">
-          <p class="text-xl lg:text-2xl">Next: Immersive dark mode & accessibility</p>
-        </a>
-      </section>
-      <div class="flex flex-col items-center max-w-[4768px] mt-16 lg:mt-30 text-center no-ai gap-4">
-        <p class="leading-6">
-          This website was manually built with love and plain html, css & js.
-          <br />No AI was used in the process.
-        </p>
-        <p>Thanks for reading.</p>
-        <img class="w-[24px]" src="./assets/heart.svg" alt="" />
+        </div> -->
+      <div class="work-list mt-6">
+        <p class="font-bold text-xl mb-2!">This app uses a couple of MCPs to build prototypes like:</p>
+        <ul class="list-disc list-inside lg:w-[900px]">
+          <li>
+            The official Figma MCP and the Figma console MCP that can accurately read designs from Figma that utilise
+            elements from the design system, such as components, tokens, and styles.</li>
+          <li>Chrome dev tools MCP to automate QA firing a test session where the app compares the Figma design against
+            what's built in the browser using screenshots</li>
+          <li>
+            Github MCP to scan remote repositories and find reusable patterns using the zds components, like login
+            flows, checkout pages and motion implementation that are not part of the system yet. It is also used to
+            reuse other repositories, such as assets and design tokens, which exist on separate projects from the
+            component's code base.
+          </li>
+          </li>
+        </ul>
       </div>
-    </main>
-    <footer class="site-footer" role="contentinfo">
-      <div class="footer-container">
-        <a
-          class="icon-button"
-          href="https://www.linkedin.com/in/gonzalovc/"
-          target="_blank"
-          rel="noopener"
-          aria-label="LinkedIn"
-        >
-          <img src="./assets/linkedin.svg" alt="" />
-        </a>
-        <a class="icon-button" href="mailto:gonzalo.dcv@gmail.com" aria-label="Email">
-          <img src="./assets/mail.svg" alt="" />
-        </a>
-        <p class="footnote">Website design and content © 2025 Gonzalo Vásquez</p>
+    </section>
+
+    <section class="work-content mt-16 lg:mt-30">
+      <h2 class="section-title text-3xl md:text-[48px] mb-6!">Claude code skills + pulling real data</h2>
+      <div class="work-list mt-6">
+        <p class="font-bold text-xl mb-2!">The prototypes playground uses a set of skills to:</p>
+        <ul class="list-disc list-inside">
+          <li>Create new prototypes from Figma URLs or freely prompt ideas, or use external sources as references. This
+            skill also asks if the user wants to retrieve live data from Zalando URLs like product detail pages,
+            catalogues, images and video assets, brand and product names, prices, etc. It uses a couple of scripts to
+            pull the data and download assets like videos that are used as blob elements in the browser. The script uses
+            real product videos, downloads the asset, encodes a useful format for the local host browser and deletes the
+            raw video before closing the task.</li>
+          <li>Add prototypes as Templates using placeholder elements and layout mimicking the most used pages in
+            Zalando, for web and mobile (mocked in the browser).</li>
+          <li>Add zds components that only exist in the Figma library or that are custom components but useful to reuse
+            in more than one prototype.</li>
+          <li>A Figma skill that runs internally when building prototypes. This skill runs in a loop using the Chrome
+            dev tool MCP, taking screenshots of what is in the Figma URL passed and comparing it against the
+            implementation in progress. This loop runs 3 times until every difference is sorted, closing the task or
+            asking the user for more input if necessary.</li>
+        </ul>
+        <figure class="rounded-2xl">
+          <video class="rounded-2xl" poster="./assets/work-2-hero-poster.jpg" src="assets/ai-2.mp4" autoplay muted loop
+            playsinline preload="auto" aria-label="Conference talk on stage"></video>
+        </figure>
+        <figure class="rounded-2xl mt-6!">
+          <video class="rounded-2xl" poster="./assets/work-2-hero-poster.jpg" src="assets/ai-2b.mp4" muted loop
+            playsinline preload="auto" aria-label="Conference talk on stage"></video>
+        </figure>
+        <figure class="rounded-2xl mt-6!">
+          <video class="rounded-2xl" poster="./assets/work-2-hero-poster.jpg" src="assets/ai-2c.mp4" autoplay muted loop
+            playsinline preload="auto" aria-label="Conference talk on stage"></video>
+        </figure>
+        <p class="mt-4!">This set of skills helps designers build confidently creesn and views with accurate results,
+          especially when Figma designs are used as starting points. But even when a designer prompts a free idea, or
+          uses a reference, the skills will apply the elements like buttons or image gallery to the closest Zalando
+          components, maintaining the overall coherency with the live Zalando experience and the Brand strategic
+          elements.</p>
       </div>
-    </footer>
-    <script src="script.js" defer></script>
-  </body>
+    </section>
+
+    <section class="work-content mt-16 lg:mt-30">
+      <h2 class="section-title text-3xl md:text-[48px] mb-6!">Useful add-ons</h2>
+      <div class="work-list mt-6">
+        <p class="font-bold text-xl mb-2!">The app also features a couple of add-ons to help explore alternatives in the
+          browser without expending tokens or prompting variations:</p>
+        <ul class="list-disc list-inside">
+          <li>Agentation is used to log multiple fix requests on a single prompt, pointing the agent to the exact
+            elements that need to be updated or fixed.</li>
+          <li>Dialkit to allow designers to explore variations of the current prototype implementation without running a
+            new prompt. This allows changing product data, layout, showing or hiding elements, changing variants of
+            components, etc. All of this happens in the browser, so users can freely explore new ideas on the fly.
+          </li>
+          <li>A built-in feature to pull real data using a Zalando URL. Through a user token generated per session, a
+            designer can use a full set of products from a Zalando Catalogue, or a complete Product detail page (PDP),
+            getting brand and product details, price, discounts, delivery details, etc.</li>
+        </ul>
+        <figure class="rounded-2xl">
+          <video class="rounded-2xl" poster="./assets/work-2-hero-poster.jpg" src="assets/ai-3.mp4" autoplay muted loop
+            playsinline preload="auto" aria-label="Conference talk on stage"></video>
+        </figure>
+      </div>
+    </section>
+
+    <section class="work-content mt-16 lg:mt-30">
+      <h2 class="section-title text-3xl md:text-[48px] mb-6!">The payoff</h2>
+      <p>
+        Even though it is early days for this project, we are already seeing big outcomes in relation to reducing the
+        time to produce a prototype from days to hours. There has also beeing big reduction in design to engineering
+        handoff and improved communication when discussing new features thank to the capacity of the app to include high
+        fidelity functionality like mocking chat-assisted interfaces and simulating the whole journey of a customer,
+        just providing a couple of screens and prompting the states in between.
+      </p>
+    </section>
+    <section class="mt-16 lg:mt-30 flex flex-col md:flex-row justify-between opacity-50 gap-4">
+      <a class="underline-offset-8 u flex flex-row gap-2" href="work-1.html">
+        <p class="text-xl lg:text-2xl">Prev: Design tokens and multi theme architecture</p>
+      </a>
+      <a class="underline-offset-8 u flex flex-row gap-2" href="work-3.html">
+        <p class="text-xl lg:text-2xl">Next: Unified documentation</p>
+      </a>
+    </section>
+    <div class="flex flex-col items-center max-w-[4768px] mt-16 lg:mt-30 text-center no-ai gap-4">
+      <p class="leading-6">
+        This website was manually built with love and plain html, css & js.
+        <br />No AI was used in the process.
+      </p>
+      <p>Thanks for reading.</p>
+      <img class="w-[24px]" src="./assets/heart.svg" alt="" />
+    </div>
+  </main>
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-container">
+      <a class="icon-button" href="https://www.linkedin.com/in/gonzalovc/" target="_blank" rel="noopener"
+        aria-label="LinkedIn">
+        <img src="./assets/linkedin.svg" alt="" />
+      </a>
+      <a class="icon-button" href="mailto:gonzalo.dcv@gmail.com" aria-label="Email">
+        <img src="./assets/mail.svg" alt="" />
+      </a>
+      <p class="footnote">Website design and content © 2025 Gonzalo Vásquez</p>
+    </div>
+  </footer>
+  <script src="script.js" defer></script>
+</body>
+
 </html>
