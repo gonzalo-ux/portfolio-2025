@@ -35,6 +35,16 @@ body {
   height: 100%;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   margin: 0;
   font-family: "Lato", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji",
@@ -112,14 +122,28 @@ header {
 .nav-links a {
   color: var(--text);
   text-decoration: none;
+  position: relative;
   /* font-size: 20px; */
   line-height: 24px;
   white-space: nowrap;
 }
 
-.nav-links a.current {
-  text-decoration: underline;
-  text-underline-offset: 2px;
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s ease;
+}
+
+.nav-links a:hover::after,
+.nav-links a.current::after {
+  transform: scaleX(1);
 }
 
 .header-actions {
@@ -134,6 +158,21 @@ header {
   height: 24px;
   align-items: center;
   justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.icon-button:hover {
+  transform: rotate(8deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .icon-button {
+    transition: none;
+  }
+
+  .icon-button:hover {
+    transform: none;
+  }
 }
 
 .icon-button svg {
@@ -251,6 +290,30 @@ header {
   gap: var(--gap-cta);
   color: var(--bg-mutted);
   background-color: #008cff;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.hero-cta img {
+  transition: transform 0.2s ease;
+}
+
+.hero-cta:hover {
+  background-color: #1c97fc;
+}
+
+.hero-cta:hover img {
+  transform: translateY(2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-cta img {
+    transition: none;
+  }
+
+  .hero-cta:hover img {
+    transform: none;
+  }
 }
 
 .hero-media {
@@ -294,6 +357,7 @@ a.fake-anchor {
   position: relative;
   top: 0px;
   visibility: hidden;
+  scroll-margin-top: 80px;
 }
 
 .about-me p {
@@ -345,6 +409,21 @@ a.fake-anchor {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.work-grid > a:hover .thumb img {
+  transform: scale(1.05);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thumb img {
+    transition: none;
+  }
+
+  .work-grid > a:hover .thumb img {
+    transform: none;
+  }
 }
 .card figcaption {
   display: flex;
