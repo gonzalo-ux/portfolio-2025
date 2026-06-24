@@ -1,4 +1,8 @@
 /* Base */
+html {
+  scrollbar-gutter: stable;
+}
+
 :root {
   --bg: #1f1f1f;
   --text: #ffffff;
@@ -42,6 +46,52 @@ html {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+}
+
+/* Page transition layers (JS-driven fetch swap) */
+.page-transition-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483646;
+  pointer-events: none;
+  background: #000;
+  opacity: 0;
+}
+
+.page-transition-flyover {
+  position: fixed;
+  z-index: 2147483647;
+  pointer-events: none;
+  border-radius: 16px;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  contain: layout paint;
+}
+
+.page-transition-flyover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+body.is-page-transitioning,
+body.is-entering-work {
+  overflow: hidden;
+}
+
+html.is-page-transitioning {
+  scroll-behavior: auto !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition-curtain,
+  .page-transition-flyover {
+    display: none !important;
   }
 }
 
