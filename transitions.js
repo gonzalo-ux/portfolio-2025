@@ -1,7 +1,9 @@
 const MOTION = {
-  fade: 180,
-  heroSlide: 300,
+  fade: 300,
+  heroSlide: 600,
   reveal: 100,
+  entryScaleHold: 50,
+  entryScaleSettle: 100,
   easing: 'cubic-bezier(0.33, 1, 0.68, 1)',
 };
 
@@ -54,6 +56,19 @@ function runAnimation(element, keyframes, options) {
   }
 
   element.getAnimations().forEach((animation) => animation.cancel());
+
+  const animation = element.animate(keyframes, {
+    fill: 'forwards',
+    ...options,
+  });
+
+  return animation.finished.catch(() => undefined);
+}
+
+function addAnimation(element, keyframes, options) {
+  if (!element) {
+    return Promise.resolve();
+  }
 
   const animation = element.animate(keyframes, {
     fill: 'forwards',
@@ -117,6 +132,28 @@ function rectToBounds(rect) {
   };
 }
 
+function entryBoundsFromHeroBounds(bounds) {
+  const viewportWidth = window.innerWidth;
+  const aspect = bounds.height / bounds.width;
+
+  return {
+    left: 0,
+    top: bounds.top,
+    width: viewportWidth,
+    height: viewportWidth * aspect,
+    slideDistance: bounds.slideDistance,
+  };
+}
+
+function boundsToKeyframe(bounds) {
+  return {
+    left: `${bounds.left}px`,
+    top: `${bounds.top}px`,
+    width: `${bounds.width}px`,
+    height: `${bounds.height}px`,
+  };
+}
+
 function isPlausibleHeroRect(rect) {
   return (
     rect.width > 1 &&
@@ -134,19 +171,29 @@ async function resetScrollPosition() {
   await nextFrame(3);
 }
 
+function buildFlyoverTranslate(translateY) {
+  return `translate3d(0, ${translateY}px, 0)`;
+}
+
 function applyFlyoverBounds(flyover, bounds, translateY) {
   flyover.style.left = `${bounds.left}px`;
   flyover.style.top = `${bounds.top}px`;
   flyover.style.width = `${bounds.width}px`;
   flyover.style.height = `${bounds.height}px`;
   flyover.style.opacity = '1';
-  flyover.style.transform = `translate3d(0, ${translateY}px, 0)`;
+  flyover.style.transform = buildFlyoverTranslate(translateY);
+}
+
+function applyFlyoverScale(flyover, scale) {
+  flyover.style.scale = String(scale);
 }
 
 function createHeroFlyover(imageSrc, bounds) {
+  const entry = entryBoundsFromHeroBounds(bounds);
   const flyover = document.createElement('div');
   flyover.className = 'page-transition-flyover';
-  applyFlyoverBounds(flyover, bounds, bounds.slideDistance);
+  applyFlyoverBounds(flyover, entry, entry.slideDistance);
+  applyFlyoverScale(flyover, 1);
 
   const media = document.createElement('img');
   media.src = imageSrc;
@@ -198,15 +245,20 @@ async function waitForHeroMedia(hero) {
   }
 }
 
-async function measureHeroRect(hero) {
+async function measureHeroRect(hero, { fast = false } = {}) {
   await resetScrollPosition();
   await waitForHeroMedia(hero);
-  await waitForLayoutReady();
+
+  if (fast) {
+    await nextFrame(4);
+  } else {
+    await waitForLayoutReady();
+  }
 
   let previous = null;
-  for (let attempt = 0; attempt < 20; attempt += 1) {
-    await resetScrollPosition();
+  const attempts = fast ? 8 : 20;
 
+  for (let attempt = 0; attempt < attempts; attempt += 1) {
     const rect = hero.getBoundingClientRect();
     if (
       isPlausibleHeroRect(rect) &&
@@ -221,22 +273,39 @@ async function measureHeroRect(hero) {
     await nextFrame();
   }
 
-  await resetScrollPosition();
   const fallback = hero.getBoundingClientRect();
   return isPlausibleHeroRect(fallback) ? fallback : null;
 }
 
-function animateFlyoverSlide(flyover, bounds) {
-  applyFlyoverBounds(flyover, bounds, bounds.slideDistance);
+async function animateFlyoverSlide(flyover, bounds) {
+  const entry = entryBoundsFromHeroBounds(bounds);
+  const slideDuration = MOTION.heroSlide - MOTION.entryScaleHold - MOTION.entryScaleSettle;
 
-  return runAnimation(
+  applyFlyoverBounds(flyover, entry, entry.slideDistance);
+  applyFlyoverScale(flyover, 1);
+
+  await addAnimation(
     flyover,
     [
-      { transform: `translate3d(0, ${bounds.slideDistance}px, 0)`, opacity: 1 },
-      { transform: 'translate3d(0, 0, 0)', opacity: 1 },
+      { transform: buildFlyoverTranslate(entry.slideDistance) },
+      { transform: buildFlyoverTranslate(0) },
     ],
     {
-      duration: MOTION.heroSlide,
+      duration: slideDuration,
+      easing: MOTION.easing,
+    },
+  );
+
+  applyFlyoverBounds(flyover, entry, 0);
+  applyFlyoverScale(flyover, 1);
+
+  await new Promise((resolve) => setTimeout(resolve, MOTION.entryScaleHold));
+
+  await addAnimation(
+    flyover,
+    [boundsToKeyframe(entry), boundsToKeyframe(bounds)],
+    {
+      duration: MOTION.entryScaleSettle,
       easing: MOTION.easing,
     },
   );
@@ -348,6 +417,7 @@ function handoffFlyoverToHero(flyover, hero, bounds) {
 
   if (bounds) {
     applyFlyoverBounds(flyover, bounds, 0);
+    applyFlyoverScale(flyover, 1);
   }
 
   hero.style.visibility = 'visible';
@@ -424,7 +494,7 @@ async function runPageTransition(link) {
 
   hero.style.visibility = 'hidden';
 
-  const heroRect = await measureHeroRect(hero);
+  const heroRect = await measureHeroRect(hero, { fast: true });
   const bounds = heroRect ? rectToBounds(heroRect) : null;
 
   if (bounds) {
