@@ -181,6 +181,10 @@ function preloadImage(src) {
   });
 }
 
+function isMediaReady(media) {
+  return !!(media && media.complete && media.naturalWidth > 0);
+}
+
 function getHeroFlyoverImage(hero, fallbackSrc) {
   const video = hero.querySelector('video');
   if (video?.poster) {
@@ -646,8 +650,10 @@ async function runPageTransition(link) {
 
   let flyover = null;
   if (originBounds && fallbackImageSrc) {
-    await preloadImage(fallbackImageSrc);
     flyover = createHeroFlyover(fallbackImageSrc, null, originBounds);
+    if (!isMediaReady(thumb)) {
+      preloadImage(fallbackImageSrc);
+    }
   } else if (isWorkPageNavLink(link)) {
     const currentHero = getHeroTarget();
     const currentImage = currentHero ? getHeroFlyoverImage(currentHero, '') : '';
@@ -697,9 +703,6 @@ async function runPageTransition(link) {
     let transitionOriginBounds = originBounds;
 
     if (!flyover) {
-      if (destinationImagePreload) {
-        await destinationImagePreload;
-      }
       flyover = createHeroFlyover(imageSrc, bounds, null);
     } else if (!transitionOriginBounds && isWorkPageNavLink(link)) {
       const flyoverRect = flyover.getBoundingClientRect();
@@ -733,7 +736,29 @@ async function runPageTransition(link) {
   return true;
 }
 
+function prefetchTransitionPage(href) {
+  if (!href || !canRunFetchTransition()) {
+    return;
+  }
+
+  const url = new URL(href, window.location.href).href;
+  fetch(url, { credentials: 'same-origin' }).catch(() => undefined);
+}
+
 function initTransitions() {
+  document.addEventListener(
+    'pointerenter',
+    (event) => {
+      const link = event.target.closest('a[href]');
+      if (!link || !isTransitionLink(link)) {
+        return;
+      }
+
+      prefetchTransitionPage(link.getAttribute('href'));
+    },
+    true,
+  );
+
   document.addEventListener(
     'click',
     (event) => {
