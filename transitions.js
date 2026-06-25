@@ -1,12 +1,14 @@
 const MOTION = {
   fade: 100,
-  heroSlide: 600,
+  heroSlide: 700,
   reveal: 600,
   entryScaleHold: 50,
-  entryScaleSettle: 100,
-  entryMobileFinalSettle: 200,
+  entryScaleSettle: 200,
+  entryMobileFinalSettle: 300,
   easing: 'cubic-bezier(0.33, 1, 0.68, 1)',
 };
+
+const HERO_EXPAND_MAX_WIDTH = 2000;
 
 function isMobileViewport() {
   return window.matchMedia('(max-width: 640px)').matches;
@@ -81,7 +83,7 @@ function isTransitionLink(link) {
   }
 
   if (isCurrentWorkPage()) {
-    return !!link.closest('.work-page-nav');
+    return !!isWorkPageNavLink(link);
   }
 
   return false;
@@ -95,7 +97,15 @@ function getThumbContainer(link) {
   return link.querySelector('.thumb');
 }
 
+function isWorkPageNavLink(link) {
+  return !!link.closest('.work-page-nav');
+}
+
 function getTransitionOriginRect(link) {
+  if (isWorkPageNavLink(link)) {
+    return null;
+  }
+
   if (getPageName() === 'index') {
     return getThumbContainer(link)?.getBoundingClientRect() ?? null;
   }
@@ -199,13 +209,15 @@ function rectToBounds(rect) {
 
 function entryBoundsFromHeroBounds(bounds) {
   const viewportWidth = window.innerWidth;
+  const width = Math.min(viewportWidth, HERO_EXPAND_MAX_WIDTH);
+  const left = Math.max(0, (viewportWidth - width) / 2);
   const aspect = bounds.height / bounds.width;
 
   return {
-    left: 0,
+    left,
     top: bounds.top,
-    width: viewportWidth,
-    height: viewportWidth * aspect,
+    width,
+    height: width * aspect,
     slideDistance: bounds.slideDistance,
   };
 }
@@ -324,6 +336,14 @@ async function waitForLayoutReady() {
 }
 
 async function waitForHeroMedia(hero) {
+  const video = hero.querySelector('video');
+  if (video?.poster) {
+    await Promise.race([
+      preloadImage(resolveAssetUrl(video.poster)),
+      new Promise((resolve) => setTimeout(resolve, 5000)),
+    ]);
+  }
+
   const img = hero.matches('img') ? hero : hero.querySelector('img');
   if (img && !(img.complete && img.naturalWidth > 0)) {
     await Promise.race([
@@ -331,11 +351,10 @@ async function waitForHeroMedia(hero) {
         img.addEventListener('load', resolve, { once: true });
         img.addEventListener('error', resolve, { once: true });
       }),
-      new Promise((resolve) => setTimeout(resolve, 2000)),
+      new Promise((resolve) => setTimeout(resolve, 5000)),
     ]);
   }
 
-  const video = hero.querySelector('video');
   if (video && video.readyState < 2) {
     await Promise.race([
       new Promise((resolve) => {
@@ -347,18 +366,23 @@ async function waitForHeroMedia(hero) {
   }
 }
 
-async function measureHeroRect(hero, { fast = false } = {}) {
-  await resetScrollPosition();
-  await waitForHeroMedia(hero);
+async function measureHeroRect(hero, { fast = false, skipMediaWait = false } = {}) {
+  if (!fast) {
+    await resetScrollPosition();
+  }
+
+  if (!skipMediaWait && !fast) {
+    await waitForHeroMedia(hero);
+  }
 
   if (fast) {
-    await nextFrame(4);
+    await nextFrame(2);
   } else {
     await waitForLayoutReady();
   }
 
   let previous = null;
-  const attempts = fast ? 8 : 20;
+  const attempts = fast ? 4 : 20;
 
   for (let attempt = 0; attempt < attempts; attempt += 1) {
     const rect = hero.getBoundingClientRect();
@@ -550,9 +574,10 @@ function cleanupTransitionState(hero) {
   document.documentElement.classList.remove('is-page-transitioning');
 }
 
-function handoffFlyoverToHero(flyover, hero, bounds) {
+async function handoffFlyoverToHero(flyover, hero, bounds) {
   if (!flyover) {
     if (hero) {
+      await waitForHeroMedia(hero);
       hero.style.visibility = '';
     }
     return;
@@ -563,6 +588,7 @@ function handoffFlyoverToHero(flyover, hero, bounds) {
     applyFlyoverScale(flyover, 1);
   }
 
+  await waitForHeroMedia(hero);
   hero.style.visibility = 'visible';
   flyover.remove();
 
@@ -622,11 +648,29 @@ async function runPageTransition(link) {
   if (originBounds && fallbackImageSrc) {
     await preloadImage(fallbackImageSrc);
     flyover = createHeroFlyover(fallbackImageSrc, null, originBounds);
+  } else if (isWorkPageNavLink(link)) {
+    const currentHero = getHeroTarget();
+    const currentImage = currentHero ? getHeroFlyoverImage(currentHero, '') : '';
+    const currentRect = currentHero?.getBoundingClientRect();
+    if (currentImage && currentRect && isPlausibleHeroRect(currentRect)) {
+      flyover = createHeroFlyover(currentImage, null, rectToBounds(currentRect));
+    }
   }
 
   let nextDoc;
+  let destinationImagePreload = null;
   try {
     [nextDoc] = await Promise.all([fetchPageDocument(href), fadePageOut(curtain)]);
+
+    const nextHero = nextDoc.querySelector(
+      `.page-transition-hero[data-transition-id="${CSS.escape(transitionId)}"]`,
+    );
+    if (nextHero) {
+      const destinationImage = getHeroFlyoverImage(nextHero, fallbackImageSrc);
+      if (destinationImage) {
+        destinationImagePreload = preloadImage(destinationImage);
+      }
+    }
   } catch {
     cleanupTransitionState();
     window.location.href = href;
@@ -645,29 +689,40 @@ async function runPageTransition(link) {
     return false;
   }
 
-  hero.style.visibility = 'hidden';
-
-  const heroRect = await measureHeroRect(hero, { fast: true });
+  const heroRect = await measureHeroRect(hero, { fast: true, skipMediaWait: true });
   const bounds = heroRect ? rectToBounds(heroRect) : null;
 
   if (bounds) {
     const imageSrc = getHeroFlyoverImage(hero, fallbackImageSrc);
-    const flyoverImg = flyover?.querySelector('img');
+    let transitionOriginBounds = originBounds;
 
     if (!flyover) {
-      await preloadImage(imageSrc);
+      if (destinationImagePreload) {
+        await destinationImagePreload;
+      }
       flyover = createHeroFlyover(imageSrc, bounds, null);
-    } else if (flyoverImg && flyoverImg.src !== imageSrc) {
-      await preloadImage(imageSrc);
-      flyoverImg.src = imageSrc;
+    } else if (!transitionOriginBounds && isWorkPageNavLink(link)) {
+      const flyoverRect = flyover.getBoundingClientRect();
+      if (isPlausibleHeroRect(flyoverRect)) {
+        transitionOriginBounds = rectToBounds(flyoverRect);
+      }
     }
 
-    const settledBounds = await animateFlyoverSlide(flyover, bounds, hero, curtain, originBounds);
+    hero.style.visibility = 'hidden';
 
-    handoffFlyoverToHero(flyover, hero, settledBounds);
+    const settledBounds = await animateFlyoverSlide(
+      flyover,
+      bounds,
+      hero,
+      curtain,
+      transitionOriginBounds,
+    );
+
+    await handoffFlyoverToHero(flyover, hero, settledBounds);
   } else {
     flyover?.remove();
     await revealCurtain(curtain);
+    await waitForHeroMedia(hero);
     hero.style.visibility = '';
   }
 
