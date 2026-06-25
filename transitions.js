@@ -449,28 +449,69 @@ async function measureHeroRect(hero, { fast = false, skipMediaWait = false } = {
   return isPlausibleHeroRect(fallback) ? fallback : null;
 }
 
-async function animateFlyoverSlide(flyover, bounds, hero, curtain, originBounds) {
+async function animateFlyoverExpand(flyover, originBounds, landingBounds) {
+  const settleDuration = isMobileViewport()
+    ? MOTION.entryMobileFinalSettle
+    : MOTION.entryScaleSettle;
+  const slideDuration = MOTION.heroSlide - MOTION.entryScaleHold - settleDuration;
+
+  applyFlyoverBounds(flyover, originBounds, 0);
+  applyFlyoverScale(flyover, 1);
+
+  await addAnimation(
+    flyover,
+    [boundsToKeyframe(originBounds), boundsToKeyframe(landingBounds)],
+    {
+      duration: slideDuration,
+      easing: MOTION.easing,
+    },
+  );
+
+  flyover.getAnimations().forEach((animation) => animation.cancel());
+  applyFlyoverBounds(flyover, landingBounds, 0);
+  applyFlyoverScale(flyover, 1);
+
+  return landingBounds;
+}
+
+async function animateFlyoverSettle(flyover, landingBounds, bounds, hero, curtain) {
+  await new Promise((resolve) => setTimeout(resolve, MOTION.entryScaleHold));
+
   const mobile = isMobileViewport();
-  const landing = getFlyoverLandingBounds(bounds);
   const settleDuration = mobile ? MOTION.entryMobileFinalSettle : MOTION.entryScaleSettle;
+  const settledRect = hero?.getBoundingClientRect();
+  const targetBounds =
+    settledRect && isPlausibleHeroRect(settledRect) ? rectToBounds(settledRect) : bounds;
+
+  const settleAnimation = mobile
+    ? animateMobileSettle(flyover, landingBounds, targetBounds, settleDuration)
+    : addAnimation(
+        flyover,
+        [boundsToKeyframe(landingBounds), boundsToKeyframe(targetBounds)],
+        {
+          duration: settleDuration,
+          easing: MOTION.easing,
+        },
+      );
+
+  if (curtain) {
+    await Promise.all([settleAnimation, revealCurtain(curtain)]);
+  } else {
+    await settleAnimation;
+  }
+
+  return targetBounds;
+}
+
+async function animateFlyoverSlide(flyover, bounds, hero, curtain, originBounds) {
+  const landing = getFlyoverLandingBounds(bounds);
+  const settleDuration = isMobileViewport()
+    ? MOTION.entryMobileFinalSettle
+    : MOTION.entryScaleSettle;
   const slideDuration = MOTION.heroSlide - MOTION.entryScaleHold - settleDuration;
 
   if (originBounds) {
-    applyFlyoverBounds(flyover, originBounds, 0);
-    applyFlyoverScale(flyover, 1);
-
-    await addAnimation(
-      flyover,
-      [boundsToKeyframe(originBounds), boundsToKeyframe(landing)],
-      {
-        duration: slideDuration,
-        easing: MOTION.easing,
-      },
-    );
-
-    flyover.getAnimations().forEach((animation) => animation.cancel());
-    applyFlyoverBounds(flyover, landing, 0);
-    applyFlyoverScale(flyover, 1);
+    await animateFlyoverExpand(flyover, originBounds, landing);
   } else {
     applyFlyoverBounds(flyover, landing, landing.slideDistance);
     applyFlyoverScale(flyover, 1);
@@ -491,30 +532,7 @@ async function animateFlyoverSlide(flyover, bounds, hero, curtain, originBounds)
     applyFlyoverScale(flyover, 1);
   }
 
-  await new Promise((resolve) => setTimeout(resolve, MOTION.entryScaleHold));
-
-  const settledRect = hero?.getBoundingClientRect();
-  const targetBounds =
-    settledRect && isPlausibleHeroRect(settledRect) ? rectToBounds(settledRect) : bounds;
-
-  const settleAnimation = mobile
-    ? animateMobileSettle(flyover, landing, targetBounds, settleDuration)
-    : addAnimation(
-        flyover,
-        [boundsToKeyframe(landing), boundsToKeyframe(targetBounds)],
-        {
-          duration: settleDuration,
-          easing: MOTION.easing,
-        },
-      );
-
-  if (curtain) {
-    await Promise.all([settleAnimation, revealCurtain(curtain)]);
-  } else {
-    await settleAnimation;
-  }
-
-  return targetBounds;
+  return animateFlyoverSettle(flyover, landing, bounds, hero, curtain);
 }
 
 function revealCurtain(curtain) {
@@ -634,7 +652,10 @@ async function handoffFlyoverToHero(flyover, hero, bounds) {
     applyFlyoverScale(flyover, 1);
   }
 
-  await waitForHeroMedia(hero);
+  await Promise.race([
+    waitForHeroMedia(hero),
+    new Promise((resolve) => setTimeout(resolve, 1200)),
+  ]);
   hero.style.visibility = 'visible';
   flyover.remove();
 
@@ -691,6 +712,8 @@ async function runPageTransition(link) {
   const curtain = ensureTransitionCurtain();
 
   let flyover = null;
+  let transitionOriginBounds = originBounds;
+
   if (originBounds && fallbackImageSrc) {
     flyover = createHeroFlyover(fallbackImageSrc, null, originBounds, thumb);
     if (!getFlyoverSourceMedia(thumb)) {
@@ -704,14 +727,14 @@ async function runPageTransition(link) {
       : currentHero?.querySelector('img, video');
     const currentRect = currentHero?.getBoundingClientRect();
     if (currentImage && currentRect && isPlausibleHeroRect(currentRect)) {
-      flyover = createHeroFlyover(currentImage, null, rectToBounds(currentRect), currentMedia);
+      transitionOriginBounds = rectToBounds(currentRect);
+      flyover = createHeroFlyover(currentImage, null, transitionOriginBounds, currentMedia);
     }
   }
 
   let nextDoc;
-  let destinationImagePreload = null;
   try {
-    [nextDoc] = await Promise.all([fetchPageDocument(href), fadePageOut(curtain)]);
+    nextDoc = await fetchPageDocument(href);
 
     const nextHero = nextDoc.querySelector(
       `.page-transition-hero[data-transition-id="${CSS.escape(transitionId)}"]`,
@@ -719,7 +742,7 @@ async function runPageTransition(link) {
     if (nextHero) {
       const destinationImage = getHeroFlyoverImage(nextHero, fallbackImageSrc);
       if (destinationImage) {
-        destinationImagePreload = preloadImage(destinationImage);
+        preloadImage(destinationImage);
       }
     }
   } catch {
@@ -728,6 +751,7 @@ async function runPageTransition(link) {
     return false;
   }
 
+  await fadePageOut(curtain);
   swapPageContent(nextDoc, href);
   document.body.classList.add('is-entering-work');
   curtain.style.opacity = '1';
@@ -745,15 +769,9 @@ async function runPageTransition(link) {
 
   if (bounds) {
     const imageSrc = getHeroFlyoverImage(hero, fallbackImageSrc);
-    let transitionOriginBounds = originBounds;
 
     if (!flyover) {
       flyover = createHeroFlyover(imageSrc, bounds, null, thumb);
-    } else if (!transitionOriginBounds && isWorkPageNavLink(link)) {
-      const flyoverRect = flyover.getBoundingClientRect();
-      if (isPlausibleHeroRect(flyoverRect)) {
-        transitionOriginBounds = rectToBounds(flyoverRect);
-      }
     }
 
     hero.style.visibility = 'hidden';
@@ -835,9 +853,23 @@ function initTransitions() {
   );
 }
 
+function prefetchWorkPages() {
+  if (!canRunFetchTransition()) {
+    return;
+  }
+
+  Object.keys(WORK_PAGE_TRANSITION_IDS).forEach((file) => {
+    prefetchTransitionPage(file);
+  });
+}
+
 function bootTransitions() {
   if (getPageName() === 'index' || isCurrentWorkPage()) {
     initTransitions();
+  }
+
+  if (getPageName() === 'index') {
+    prefetchWorkPages();
   }
 }
 
