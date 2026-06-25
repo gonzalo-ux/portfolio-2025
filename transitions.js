@@ -185,6 +185,51 @@ function isMediaReady(media) {
   return !!(media && media.complete && media.naturalWidth > 0);
 }
 
+function isVideoReady(video) {
+  return !!(video && video.readyState >= 2 && video.videoWidth > 0);
+}
+
+function createCanvasFromMedia(media) {
+  const width = media.videoWidth || media.naturalWidth;
+  const height = media.videoHeight || media.naturalHeight;
+
+  if (!width || !height) {
+    return null;
+  }
+
+  const canvas = document.createElement('canvas');
+  canvas.width = width;
+  canvas.height = height;
+  canvas.getContext('2d').drawImage(media, 0, 0, width, height);
+  return canvas;
+}
+
+function getFlyoverSourceMedia(sourceMedia) {
+  if (!sourceMedia) {
+    return null;
+  }
+
+  if (sourceMedia instanceof HTMLVideoElement) {
+    return isVideoReady(sourceMedia) ? sourceMedia : null;
+  }
+
+  return isMediaReady(sourceMedia) ? sourceMedia : null;
+}
+
+function createFlyoverMediaElement(imageSrc, sourceMedia) {
+  const snapshotSource = getFlyoverSourceMedia(sourceMedia);
+  const snapshot = snapshotSource ? createCanvasFromMedia(snapshotSource) : null;
+
+  if (snapshot) {
+    return snapshot;
+  }
+
+  const media = document.createElement('img');
+  media.src = imageSrc;
+  media.alt = '';
+  return media;
+}
+
 function getHeroFlyoverImage(hero, fallbackSrc) {
   const video = hero.querySelector('video');
   if (video?.poster) {
@@ -304,7 +349,7 @@ function applyFlyoverScale(flyover, scale) {
   flyover.style.scale = String(scale);
 }
 
-function createHeroFlyover(imageSrc, bounds, originBounds) {
+function createHeroFlyover(imageSrc, bounds, originBounds, sourceMedia) {
   const landing = bounds ? getFlyoverLandingBounds(bounds) : null;
   const startBounds = originBounds || landing;
   const translateY = originBounds ? 0 : startBounds.slideDistance;
@@ -313,10 +358,7 @@ function createHeroFlyover(imageSrc, bounds, originBounds) {
   applyFlyoverBounds(flyover, startBounds, translateY);
   applyFlyoverScale(flyover, 1);
 
-  const media = document.createElement('img');
-  media.src = imageSrc;
-  media.alt = '';
-  flyover.appendChild(media);
+  flyover.appendChild(createFlyoverMediaElement(imageSrc, sourceMedia));
 
   document.body.appendChild(flyover);
   return flyover;
@@ -650,16 +692,19 @@ async function runPageTransition(link) {
 
   let flyover = null;
   if (originBounds && fallbackImageSrc) {
-    flyover = createHeroFlyover(fallbackImageSrc, null, originBounds);
-    if (!isMediaReady(thumb)) {
+    flyover = createHeroFlyover(fallbackImageSrc, null, originBounds, thumb);
+    if (!getFlyoverSourceMedia(thumb)) {
       preloadImage(fallbackImageSrc);
     }
   } else if (isWorkPageNavLink(link)) {
     const currentHero = getHeroTarget();
     const currentImage = currentHero ? getHeroFlyoverImage(currentHero, '') : '';
+    const currentMedia = currentHero?.matches('img, video')
+      ? currentHero
+      : currentHero?.querySelector('img, video');
     const currentRect = currentHero?.getBoundingClientRect();
     if (currentImage && currentRect && isPlausibleHeroRect(currentRect)) {
-      flyover = createHeroFlyover(currentImage, null, rectToBounds(currentRect));
+      flyover = createHeroFlyover(currentImage, null, rectToBounds(currentRect), currentMedia);
     }
   }
 
@@ -703,7 +748,7 @@ async function runPageTransition(link) {
     let transitionOriginBounds = originBounds;
 
     if (!flyover) {
-      flyover = createHeroFlyover(imageSrc, bounds, null);
+      flyover = createHeroFlyover(imageSrc, bounds, null, thumb);
     } else if (!transitionOriginBounds && isWorkPageNavLink(link)) {
       const flyoverRect = flyover.getBoundingClientRect();
       if (isPlausibleHeroRect(flyoverRect)) {
