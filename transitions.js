@@ -1,11 +1,16 @@
 const MOTION = {
-  fade: 300,
+  fade: 100,
   heroSlide: 600,
-  reveal: 100,
+  reveal: 600,
   entryScaleHold: 50,
   entryScaleSettle: 100,
+  entryMobileFinalSettle: 200,
   easing: 'cubic-bezier(0.33, 1, 0.68, 1)',
 };
+
+function isMobileViewport() {
+  return window.matchMedia('(max-width: 640px)').matches;
+}
 
 function prefersReducedMotion() {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -24,22 +29,66 @@ function getPageName() {
   return file.replace('.html', '');
 }
 
-function isWorkIndexLink(link) {
-  const href = link.getAttribute('href');
-  if (!href || link.target === '_blank') {
+const WORK_PAGE_TRANSITION_IDS = {
+  'design-tokens-and-multi-theme-architecture.html': 'work-1-hero',
+  'ai-prototypes-playground.html': 'work-2-hero',
+  'unified-documentation.html': 'work-3-hero',
+  'figma-components-plugins-and-trainings.html': 'work-4-hero',
+  'immersive-dark-mode-and-accessibility.html': 'work-6-hero',
+};
+
+function isWorkPageHref(href) {
+  if (!href) {
     return false;
   }
 
   try {
     const url = new URL(href, window.location.href);
-    return /^work-\d+\.html$/.test(url.pathname.split('/').pop() || '');
+    const file = url.pathname.split('/').pop() || '';
+    return file in WORK_PAGE_TRANSITION_IDS;
   } catch {
     return false;
   }
 }
 
+function isCurrentWorkPage() {
+  return Object.keys(WORK_PAGE_TRANSITION_IDS).some(
+    (file) => getPageName() === file.replace('.html', ''),
+  );
+}
+
+function getTransitionIdFromHref(href) {
+  if (!href) {
+    return null;
+  }
+
+  try {
+    const file = new URL(href, window.location.href).pathname.split('/').pop() || '';
+    return WORK_PAGE_TRANSITION_IDS[file] || null;
+  } catch {
+    return null;
+  }
+}
+
+function isTransitionLink(link) {
+  const href = link.getAttribute('href');
+  if (!href || link.target === '_blank' || !isWorkPageHref(href)) {
+    return false;
+  }
+
+  if (getPageName() === 'index') {
+    return !!link.dataset.transitionId && !!link.closest('.work-grid');
+  }
+
+  if (isCurrentWorkPage()) {
+    return !!link.closest('.work-page-nav');
+  }
+
+  return false;
+}
+
 function getTransitionId(link) {
-  return link.dataset.transitionId || null;
+  return link.dataset.transitionId || getTransitionIdFromHref(link.getAttribute('href'));
 }
 
 function getThumbMedia(link) {
@@ -145,6 +194,25 @@ function entryBoundsFromHeroBounds(bounds) {
   };
 }
 
+function centeredMobileBounds(bounds) {
+  const width = window.innerWidth;
+  const aspect = bounds.height / bounds.width;
+  const height = width * aspect;
+  const top = Math.max(0, (window.innerHeight - height) / 2);
+
+  return {
+    left: 0,
+    top,
+    width,
+    height,
+    slideDistance: Math.max(window.innerHeight - top + 32, 120),
+  };
+}
+
+function getFlyoverLandingBounds(bounds) {
+  return isMobileViewport() ? centeredMobileBounds(bounds) : entryBoundsFromHeroBounds(bounds);
+}
+
 function boundsToKeyframe(bounds) {
   return {
     left: `${bounds.left}px`,
@@ -171,8 +239,39 @@ async function resetScrollPosition() {
   await nextFrame(3);
 }
 
-function buildFlyoverTranslate(translateY) {
-  return `translate3d(0, ${translateY}px, 0)`;
+function buildFlyoverTranslate(translateY, translateX = 0) {
+  return `translate3d(${translateX}px, ${translateY}px, 0)`;
+}
+
+async function animateMobileSettle(flyover, landing, targetBounds, duration) {
+  const deltaX = targetBounds.left - landing.left;
+  const deltaY = targetBounds.top - landing.top;
+
+  applyFlyoverBounds(flyover, landing, 0);
+  applyFlyoverScale(flyover, 1);
+
+  await Promise.all([
+    addAnimation(
+      flyover,
+      [
+        { transform: buildFlyoverTranslate(0) },
+        { transform: buildFlyoverTranslate(deltaY, deltaX) },
+      ],
+      { duration, easing: MOTION.easing },
+    ),
+    addAnimation(
+      flyover,
+      [
+        { width: `${landing.width}px`, height: `${landing.height}px` },
+        { width: `${targetBounds.width}px`, height: `${targetBounds.height}px` },
+      ],
+      { duration, easing: MOTION.easing },
+    ),
+  ]);
+
+  flyover.getAnimations().forEach((animation) => animation.cancel());
+  applyFlyoverBounds(flyover, targetBounds, 0);
+  applyFlyoverScale(flyover, 1);
 }
 
 function applyFlyoverBounds(flyover, bounds, translateY) {
@@ -189,10 +288,10 @@ function applyFlyoverScale(flyover, scale) {
 }
 
 function createHeroFlyover(imageSrc, bounds) {
-  const entry = entryBoundsFromHeroBounds(bounds);
+  const landing = getFlyoverLandingBounds(bounds);
   const flyover = document.createElement('div');
   flyover.className = 'page-transition-flyover';
-  applyFlyoverBounds(flyover, entry, entry.slideDistance);
+  applyFlyoverBounds(flyover, landing, landing.slideDistance);
   applyFlyoverScale(flyover, 1);
 
   const media = document.createElement('img');
@@ -277,17 +376,19 @@ async function measureHeroRect(hero, { fast = false } = {}) {
   return isPlausibleHeroRect(fallback) ? fallback : null;
 }
 
-async function animateFlyoverSlide(flyover, bounds) {
-  const entry = entryBoundsFromHeroBounds(bounds);
-  const slideDuration = MOTION.heroSlide - MOTION.entryScaleHold - MOTION.entryScaleSettle;
+async function animateFlyoverSlide(flyover, bounds, hero, curtain) {
+  const mobile = isMobileViewport();
+  const landing = getFlyoverLandingBounds(bounds);
+  const settleDuration = mobile ? MOTION.entryMobileFinalSettle : MOTION.entryScaleSettle;
+  const slideDuration = MOTION.heroSlide - MOTION.entryScaleHold - settleDuration;
 
-  applyFlyoverBounds(flyover, entry, entry.slideDistance);
+  applyFlyoverBounds(flyover, landing, landing.slideDistance);
   applyFlyoverScale(flyover, 1);
 
   await addAnimation(
     flyover,
     [
-      { transform: buildFlyoverTranslate(entry.slideDistance) },
+      { transform: buildFlyoverTranslate(landing.slideDistance) },
       { transform: buildFlyoverTranslate(0) },
     ],
     {
@@ -296,19 +397,40 @@ async function animateFlyoverSlide(flyover, bounds) {
     },
   );
 
-  applyFlyoverBounds(flyover, entry, 0);
+  applyFlyoverBounds(flyover, landing, 0);
   applyFlyoverScale(flyover, 1);
 
   await new Promise((resolve) => setTimeout(resolve, MOTION.entryScaleHold));
 
-  await addAnimation(
-    flyover,
-    [boundsToKeyframe(entry), boundsToKeyframe(bounds)],
-    {
-      duration: MOTION.entryScaleSettle,
-      easing: MOTION.easing,
-    },
-  );
+  const settledRect = hero?.getBoundingClientRect();
+  const targetBounds =
+    settledRect && isPlausibleHeroRect(settledRect) ? rectToBounds(settledRect) : bounds;
+
+  const settleAnimation = mobile
+    ? animateMobileSettle(flyover, landing, targetBounds, settleDuration)
+    : addAnimation(
+        flyover,
+        [boundsToKeyframe(landing), boundsToKeyframe(targetBounds)],
+        {
+          duration: settleDuration,
+          easing: MOTION.easing,
+        },
+      );
+
+  if (curtain) {
+    await Promise.all([settleAnimation, revealCurtain(curtain)]);
+  } else {
+    await settleAnimation;
+  }
+
+  return targetBounds;
+}
+
+function revealCurtain(curtain) {
+  return runAnimation(curtain, [{ opacity: 1 }, { opacity: 0 }], {
+    duration: MOTION.reveal,
+    easing: MOTION.easing,
+  });
 }
 
 async function fetchPageDocument(href) {
@@ -429,7 +551,7 @@ function handoffFlyoverToHero(flyover, hero, bounds) {
   }
 }
 
-async function fadeHomeToBlack(curtain) {
+async function fadePageOut(curtain) {
   const pageTargets = [
     document.querySelector('main'),
     document.querySelector('.site-header'),
@@ -463,7 +585,7 @@ async function runPageTransition(link) {
     thumb?.currentSrc || thumb?.src || thumb?.getAttribute('src') || '',
   );
 
-  if (!href || !transitionId || !fallbackImageSrc) {
+  if (!href || !transitionId) {
     return false;
   }
 
@@ -473,7 +595,7 @@ async function runPageTransition(link) {
 
   let nextDoc;
   try {
-    [nextDoc] = await Promise.all([fetchPageDocument(href), fadeHomeToBlack(curtain)]);
+    [nextDoc] = await Promise.all([fetchPageDocument(href), fadePageOut(curtain)]);
   } catch {
     cleanupTransitionState();
     window.location.href = href;
@@ -502,19 +624,11 @@ async function runPageTransition(link) {
     await preloadImage(imageSrc);
 
     const flyover = createHeroFlyover(imageSrc, bounds);
-    await animateFlyoverSlide(flyover, bounds);
+    const settledBounds = await animateFlyoverSlide(flyover, bounds, hero, curtain);
 
-    await runAnimation(curtain, [{ opacity: 1 }, { opacity: 0 }], {
-      duration: MOTION.reveal,
-      easing: MOTION.easing,
-    });
-
-    handoffFlyoverToHero(flyover, hero, bounds);
+    handoffFlyoverToHero(flyover, hero, settledBounds);
   } else {
-    await runAnimation(curtain, [{ opacity: 1 }, { opacity: 0 }], {
-      duration: MOTION.reveal,
-      easing: MOTION.easing,
-    });
+    await revealCurtain(curtain);
     hero.style.visibility = '';
   }
 
@@ -525,7 +639,7 @@ async function runPageTransition(link) {
   return true;
 }
 
-function initIndexTransitions() {
+function initTransitions() {
   document.addEventListener(
     'click',
     (event) => {
@@ -533,19 +647,15 @@ function initIndexTransitions() {
         return;
       }
 
-      const link = event.target.closest('a[data-transition-id][href]');
-      if (!link || !link.closest('.work-grid') || !isWorkIndexLink(link)) {
+      const link = event.target.closest('a[href]');
+      if (!link || !isTransitionLink(link)) {
         return;
       }
 
       const href = link.getAttribute('href');
       const transitionId = getTransitionId(link);
-      const thumb = getThumbMedia(link);
-      const fallbackImageSrc = resolveAssetUrl(
-        thumb?.currentSrc || thumb?.src || thumb?.getAttribute('src') || '',
-      );
 
-      if (!href || !transitionId || !fallbackImageSrc) {
+      if (!href || !transitionId) {
         return;
       }
 
@@ -562,8 +672,8 @@ function initIndexTransitions() {
 }
 
 function bootTransitions() {
-  if (getPageName() === 'index') {
-    initIndexTransitions();
+  if (getPageName() === 'index' || isCurrentWorkPage()) {
+    initTransitions();
   }
 }
 
