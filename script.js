@@ -1,6 +1,8 @@
 // script.js
 
 document.addEventListener('DOMContentLoaded', () => {
+    initIndexPageLoadFade();
+
     // Vimeo player functionality
     const vimeoCover = document.getElementById('vimeo-cover');
     const vimeoIframe = document.getElementById('vimeo-iframe');
@@ -19,6 +21,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initIndexScrollNav();
 });
+
+const INDEX_PAGE_FADE_MS = 800;
+
+function initIndexPageLoadFade() {
+    if (!document.body.classList.contains('is-index-loading')) {
+        return;
+    }
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.body.classList.remove('is-index-loading');
+
+    if (prefersReducedMotion) {
+        return;
+    }
+
+    document.body.classList.add('is-index-enter');
+    window.setTimeout(() => {
+        document.body.classList.remove('is-index-enter');
+    }, INDEX_PAGE_FADE_MS);
+}
 
 function initIndexScrollNav() {
     const navLinks = Array.from(document.querySelectorAll('.nav-links a[href^="#"]'));

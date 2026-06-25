@@ -1,10 +1,10 @@
 const MOTION = {
   fade: 100,
-  heroSlide: 600,
+  heroSlide: 900,
   reveal: 600,
   entryScaleHold: 50,
-  entryScaleSettle: 100,
-  entryMobileFinalSettle: 200,
+  entryScaleSettle: 200,
+  entryMobileFinalSettle: 300,
   easing: 'cubic-bezier(0.33, 1, 0.68, 1)',
 };
 
@@ -81,7 +81,7 @@ function isTransitionLink(link) {
   }
 
   if (isCurrentWorkPage()) {
-    return !!link.closest('.work-page-nav');
+    return !!isWorkPageNavLink(link);
   }
 
   return false;
@@ -95,7 +95,15 @@ function getThumbContainer(link) {
   return link.querySelector('.thumb');
 }
 
+function isWorkPageNavLink(link) {
+  return !!link.closest('.work-page-nav');
+}
+
 function getTransitionOriginRect(link) {
+  if (isWorkPageNavLink(link)) {
+    return null;
+  }
+
   if (getPageName() === 'index') {
     return getThumbContainer(link)?.getBoundingClientRect() ?? null;
   }
@@ -347,18 +355,23 @@ async function waitForHeroMedia(hero) {
   }
 }
 
-async function measureHeroRect(hero, { fast = false } = {}) {
-  await resetScrollPosition();
-  await waitForHeroMedia(hero);
+async function measureHeroRect(hero, { fast = false, skipMediaWait = false } = {}) {
+  if (!fast) {
+    await resetScrollPosition();
+  }
+
+  if (!skipMediaWait && !fast) {
+    await waitForHeroMedia(hero);
+  }
 
   if (fast) {
-    await nextFrame(4);
+    await nextFrame(2);
   } else {
     await waitForLayoutReady();
   }
 
   let previous = null;
-  const attempts = fast ? 8 : 20;
+  const attempts = fast ? 4 : 20;
 
   for (let attempt = 0; attempt < attempts; attempt += 1) {
     const rect = hero.getBoundingClientRect();
@@ -647,7 +660,7 @@ async function runPageTransition(link) {
 
   hero.style.visibility = 'hidden';
 
-  const heroRect = await measureHeroRect(hero, { fast: true });
+  const heroRect = await measureHeroRect(hero, { fast: true, skipMediaWait: true });
   const bounds = heroRect ? rectToBounds(heroRect) : null;
 
   if (bounds) {
@@ -658,8 +671,11 @@ async function runPageTransition(link) {
       await preloadImage(imageSrc);
       flyover = createHeroFlyover(imageSrc, bounds, null);
     } else if (flyoverImg && flyoverImg.src !== imageSrc) {
-      await preloadImage(imageSrc);
-      flyoverImg.src = imageSrc;
+      preloadImage(imageSrc).then((loaded) => {
+        if (loaded) {
+          flyoverImg.src = imageSrc;
+        }
+      });
     }
 
     const settledBounds = await animateFlyoverSlide(flyover, bounds, hero, curtain, originBounds);
