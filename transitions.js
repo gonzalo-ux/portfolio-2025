@@ -1,12 +1,14 @@
 const MOTION = {
   fade: 100,
-  heroSlide: 900,
+  heroSlide: 700,
   reveal: 600,
   entryScaleHold: 50,
   entryScaleSettle: 200,
   entryMobileFinalSettle: 300,
   easing: 'cubic-bezier(0.33, 1, 0.68, 1)',
 };
+
+const HERO_EXPAND_MAX_WIDTH = 2000;
 
 function isMobileViewport() {
   return window.matchMedia('(max-width: 640px)').matches;
@@ -207,13 +209,15 @@ function rectToBounds(rect) {
 
 function entryBoundsFromHeroBounds(bounds) {
   const viewportWidth = window.innerWidth;
+  const width = Math.min(viewportWidth, HERO_EXPAND_MAX_WIDTH);
+  const left = Math.max(0, (viewportWidth - width) / 2);
   const aspect = bounds.height / bounds.width;
 
   return {
-    left: 0,
+    left,
     top: bounds.top,
-    width: viewportWidth,
-    height: viewportWidth * aspect,
+    width,
+    height: width * aspect,
     slideDistance: bounds.slideDistance,
   };
 }
