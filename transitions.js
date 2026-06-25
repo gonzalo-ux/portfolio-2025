@@ -91,6 +91,22 @@ function getTransitionId(link) {
   return link.dataset.transitionId || getTransitionIdFromHref(link.getAttribute('href'));
 }
 
+function getThumbContainer(link) {
+  return link.querySelector('.thumb');
+}
+
+function getTransitionOriginRect(link) {
+  if (getPageName() === 'index') {
+    return getThumbContainer(link)?.getBoundingClientRect() ?? null;
+  }
+
+  if (isCurrentWorkPage()) {
+    return getHeroTarget()?.getBoundingClientRect() ?? null;
+  }
+
+  return null;
+}
+
 function getThumbMedia(link) {
   return link.querySelector('.thumb img, .thumb video');
 }
@@ -194,23 +210,8 @@ function entryBoundsFromHeroBounds(bounds) {
   };
 }
 
-function centeredMobileBounds(bounds) {
-  const width = window.innerWidth;
-  const aspect = bounds.height / bounds.width;
-  const height = width * aspect;
-  const top = Math.max(0, (window.innerHeight - height) / 2);
-
-  return {
-    left: 0,
-    top,
-    width,
-    height,
-    slideDistance: Math.max(window.innerHeight - top + 32, 120),
-  };
-}
-
 function getFlyoverLandingBounds(bounds) {
-  return isMobileViewport() ? centeredMobileBounds(bounds) : entryBoundsFromHeroBounds(bounds);
+  return entryBoundsFromHeroBounds(bounds);
 }
 
 function boundsToKeyframe(bounds) {
@@ -287,11 +288,13 @@ function applyFlyoverScale(flyover, scale) {
   flyover.style.scale = String(scale);
 }
 
-function createHeroFlyover(imageSrc, bounds) {
-  const landing = getFlyoverLandingBounds(bounds);
+function createHeroFlyover(imageSrc, bounds, originBounds) {
+  const landing = bounds ? getFlyoverLandingBounds(bounds) : null;
+  const startBounds = originBounds || landing;
+  const translateY = originBounds ? 0 : startBounds.slideDistance;
   const flyover = document.createElement('div');
   flyover.className = 'page-transition-flyover';
-  applyFlyoverBounds(flyover, landing, landing.slideDistance);
+  applyFlyoverBounds(flyover, startBounds, translateY);
   applyFlyoverScale(flyover, 1);
 
   const media = document.createElement('img');
@@ -376,29 +379,47 @@ async function measureHeroRect(hero, { fast = false } = {}) {
   return isPlausibleHeroRect(fallback) ? fallback : null;
 }
 
-async function animateFlyoverSlide(flyover, bounds, hero, curtain) {
+async function animateFlyoverSlide(flyover, bounds, hero, curtain, originBounds) {
   const mobile = isMobileViewport();
   const landing = getFlyoverLandingBounds(bounds);
   const settleDuration = mobile ? MOTION.entryMobileFinalSettle : MOTION.entryScaleSettle;
   const slideDuration = MOTION.heroSlide - MOTION.entryScaleHold - settleDuration;
 
-  applyFlyoverBounds(flyover, landing, landing.slideDistance);
-  applyFlyoverScale(flyover, 1);
+  if (originBounds) {
+    applyFlyoverBounds(flyover, originBounds, 0);
+    applyFlyoverScale(flyover, 1);
 
-  await addAnimation(
-    flyover,
-    [
-      { transform: buildFlyoverTranslate(landing.slideDistance) },
-      { transform: buildFlyoverTranslate(0) },
-    ],
-    {
-      duration: slideDuration,
-      easing: MOTION.easing,
-    },
-  );
+    await addAnimation(
+      flyover,
+      [boundsToKeyframe(originBounds), boundsToKeyframe(landing)],
+      {
+        duration: slideDuration,
+        easing: MOTION.easing,
+      },
+    );
 
-  applyFlyoverBounds(flyover, landing, 0);
-  applyFlyoverScale(flyover, 1);
+    flyover.getAnimations().forEach((animation) => animation.cancel());
+    applyFlyoverBounds(flyover, landing, 0);
+    applyFlyoverScale(flyover, 1);
+  } else {
+    applyFlyoverBounds(flyover, landing, landing.slideDistance);
+    applyFlyoverScale(flyover, 1);
+
+    await addAnimation(
+      flyover,
+      [
+        { transform: buildFlyoverTranslate(landing.slideDistance) },
+        { transform: buildFlyoverTranslate(0) },
+      ],
+      {
+        duration: slideDuration,
+        easing: MOTION.easing,
+      },
+    );
+
+    applyFlyoverBounds(flyover, landing, 0);
+    applyFlyoverScale(flyover, 1);
+  }
 
   await new Promise((resolve) => setTimeout(resolve, MOTION.entryScaleHold));
 
@@ -589,9 +610,19 @@ async function runPageTransition(link) {
     return false;
   }
 
+  const originRect = getTransitionOriginRect(link);
+  const originBounds =
+    originRect && isPlausibleHeroRect(originRect) ? rectToBounds(originRect) : null;
+
   document.body.classList.add('is-page-transitioning');
   document.documentElement.classList.add('is-page-transitioning');
   const curtain = ensureTransitionCurtain();
+
+  let flyover = null;
+  if (originBounds && fallbackImageSrc) {
+    await preloadImage(fallbackImageSrc);
+    flyover = createHeroFlyover(fallbackImageSrc, null, originBounds);
+  }
 
   let nextDoc;
   try {
@@ -621,13 +652,21 @@ async function runPageTransition(link) {
 
   if (bounds) {
     const imageSrc = getHeroFlyoverImage(hero, fallbackImageSrc);
-    await preloadImage(imageSrc);
+    const flyoverImg = flyover?.querySelector('img');
 
-    const flyover = createHeroFlyover(imageSrc, bounds);
-    const settledBounds = await animateFlyoverSlide(flyover, bounds, hero, curtain);
+    if (!flyover) {
+      await preloadImage(imageSrc);
+      flyover = createHeroFlyover(imageSrc, bounds, null);
+    } else if (flyoverImg && flyoverImg.src !== imageSrc) {
+      await preloadImage(imageSrc);
+      flyoverImg.src = imageSrc;
+    }
+
+    const settledBounds = await animateFlyoverSlide(flyover, bounds, hero, curtain, originBounds);
 
     handoffFlyoverToHero(flyover, hero, settledBounds);
   } else {
+    flyover?.remove();
     await revealCurtain(curtain);
     hero.style.visibility = '';
   }
