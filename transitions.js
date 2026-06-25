@@ -1,14 +1,16 @@
 const MOTION = {
   fade: 100,
-  heroSlide: 700,
+  heroSlide: 600,
   reveal: 600,
-  entryScaleHold: 50,
+  entryScaleHold: 20,
   entryScaleSettle: 200,
   entryMobileFinalSettle: 300,
   easing: 'cubic-bezier(0.33, 1, 0.68, 1)',
 };
 
 const HERO_EXPAND_MAX_WIDTH = 2000;
+const MIN_EXPAND_DURATION = 450;
+const pageHtmlCache = new Map();
 
 function isMobileViewport() {
   return window.matchMedia('(max-width: 640px)').matches;
@@ -449,11 +451,52 @@ async function measureHeroRect(hero, { fast = false, skipMediaWait = false } = {
   return isPlausibleHeroRect(fallback) ? fallback : null;
 }
 
-async function animateFlyoverExpand(flyover, originBounds, landingBounds) {
+function lerpBounds(from, to, progress) {
+  const t = Math.min(1, Math.max(0, progress));
+
+  return {
+    left: from.left + (to.left - from.left) * t,
+    top: from.top + (to.top - from.top) * t,
+    width: from.width + (to.width - from.width) * t,
+    height: from.height + (to.height - from.height) * t,
+    slideDistance: to.slideDistance,
+  };
+}
+
+async function animateFlyoverExpandForFetch(flyover, originBounds, landingBounds, fetchPromise) {
+  applyFlyoverBounds(flyover, originBounds, 0);
+  applyFlyoverScale(flyover, 1);
+
+  const start = performance.now();
+  let finishAt = null;
+
+  fetchPromise.finally(() => {
+    finishAt = Math.max(MIN_EXPAND_DURATION, performance.now() - start);
+  });
+
+  while (true) {
+    const elapsed = performance.now() - start;
+    const duration = finishAt ?? Math.max(MIN_EXPAND_DURATION, elapsed + 120);
+    const progress = Math.min(1, elapsed / duration);
+
+    applyFlyoverBounds(flyover, lerpBounds(originBounds, landingBounds, progress), 0);
+
+    if (finishAt !== null && progress >= 1) {
+      applyFlyoverBounds(flyover, landingBounds, 0);
+      applyFlyoverScale(flyover, 1);
+      break;
+    }
+
+    await nextFrame();
+  }
+}
+
+async function animateFlyoverExpand(flyover, originBounds, landingBounds, duration) {
   const settleDuration = isMobileViewport()
     ? MOTION.entryMobileFinalSettle
     : MOTION.entryScaleSettle;
-  const slideDuration = MOTION.heroSlide - MOTION.entryScaleHold - settleDuration;
+  const slideDuration =
+    duration ?? MOTION.heroSlide - MOTION.entryScaleHold - settleDuration;
 
   applyFlyoverBounds(flyover, originBounds, 0);
   applyFlyoverScale(flyover, 1);
@@ -546,12 +589,19 @@ async function fetchPageDocument(href) {
   const url = new URL(href, window.location.href);
 
   if (canRunFetchTransition()) {
+    const cachedHtml = pageHtmlCache.get(url.href);
+    if (cachedHtml) {
+      return new DOMParser().parseFromString(cachedHtml, 'text/html');
+    }
+
     const response = await fetch(url.href, { credentials: 'same-origin' });
     if (!response.ok) {
       throw new Error(`Failed to fetch ${url.href}`);
     }
 
-    return new DOMParser().parseFromString(await response.text(), 'text/html');
+    const html = await response.text();
+    pageHtmlCache.set(url.href, html);
+    return new DOMParser().parseFromString(html, 'text/html');
   }
 
   return loadPageDocumentViaIframe(url.href);
@@ -732,9 +782,28 @@ async function runPageTransition(link) {
     }
   }
 
+  let landingBounds =
+    transitionOriginBounds && flyover
+      ? getFlyoverLandingBounds(transitionOriginBounds)
+      : null;
+
   let nextDoc;
   try {
-    nextDoc = await fetchPageDocument(href);
+    const fetchPromise = fetchPageDocument(href);
+
+    if (flyover && transitionOriginBounds && landingBounds) {
+      [nextDoc] = await Promise.all([
+        fetchPromise,
+        animateFlyoverExpandForFetch(
+          flyover,
+          transitionOriginBounds,
+          landingBounds,
+          fetchPromise,
+        ),
+      ]);
+    } else {
+      nextDoc = await fetchPromise;
+    }
 
     const nextHero = nextDoc.querySelector(
       `.page-transition-hero[data-transition-id="${CSS.escape(transitionId)}"]`,
@@ -776,13 +845,16 @@ async function runPageTransition(link) {
 
     hero.style.visibility = 'hidden';
 
-    const settledBounds = await animateFlyoverSlide(
-      flyover,
-      bounds,
-      hero,
-      curtain,
-      transitionOriginBounds,
-    );
+    const settledBounds =
+      flyover && landingBounds
+        ? await animateFlyoverSettle(flyover, landingBounds, bounds, hero, curtain)
+        : await animateFlyoverSlide(
+            flyover,
+            bounds,
+            hero,
+            curtain,
+            transitionOriginBounds,
+          );
 
     await handoffFlyoverToHero(flyover, hero, settledBounds);
   } else {
@@ -804,8 +876,7 @@ function prefetchTransitionPage(href) {
     return;
   }
 
-  const url = new URL(href, window.location.href).href;
-  fetch(url, { credentials: 'same-origin' }).catch(() => undefined);
+  fetchPageDocument(href).catch(() => undefined);
 }
 
 function initTransitions() {
