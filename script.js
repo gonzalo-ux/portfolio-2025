@@ -30,13 +30,13 @@ function initIndexPageLoadFade() {
     }
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    document.body.classList.remove('is-index-loading');
 
     if (prefersReducedMotion) {
+        document.body.classList.remove('is-index-loading');
         return;
     }
 
-    document.body.classList.add('is-index-enter');
+    document.body.classList.replace('is-index-loading', 'is-index-enter');
     window.setTimeout(() => {
         document.body.classList.remove('is-index-enter');
     }, INDEX_PAGE_FADE_MS);

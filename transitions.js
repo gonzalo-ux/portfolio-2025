@@ -9,7 +9,7 @@ const MOTION = {
 };
 
 const HERO_EXPAND_MAX_WIDTH = 2000;
-const MIN_EXPAND_DURATION = 450;
+const MIN_FETCH_EXPAND_MS = 400;
 const pageHtmlCache = new Map();
 
 function isMobileViewport() {
@@ -277,6 +277,100 @@ function getFlyoverLandingBounds(bounds) {
   return entryBoundsFromHeroBounds(bounds);
 }
 
+function fetchWaitLandingBounds(originBounds) {
+  const viewportWidth = window.innerWidth;
+  const width = Math.min(viewportWidth, HERO_EXPAND_MAX_WIDTH);
+  const aspect = originBounds.height / originBounds.width;
+  const height = width * aspect;
+  const left = Math.max(0, (viewportWidth - width) / 2);
+  const thumbCenterY = originBounds.top + originBounds.height / 2;
+  const margin = 16;
+  let top = thumbCenterY - height / 2;
+  top = Math.max(margin, Math.min(top, window.innerHeight - height - margin));
+
+  return {
+    left,
+    top,
+    width,
+    height,
+    slideDistance: originBounds.slideDistance,
+  };
+}
+
+function lerpBounds(from, to, progress) {
+  const t = Math.min(1, Math.max(0, progress));
+
+  return {
+    left: from.left + (to.left - from.left) * t,
+    top: from.top + (to.top - from.top) * t,
+    width: from.width + (to.width - from.width) * t,
+    height: from.height + (to.height - from.height) * t,
+    slideDistance: to.slideDistance,
+  };
+}
+
+async function animateFlyoverExpandDuringFetch(
+  flyover,
+  originBounds,
+  landingBounds,
+  fetchPromise,
+) {
+  applyFlyoverBounds(flyover, originBounds, 0);
+  applyFlyoverScale(flyover, 1);
+
+  const start = performance.now();
+  let finishAt = null;
+
+  fetchPromise.finally(() => {
+    finishAt = Math.max(MIN_FETCH_EXPAND_MS, performance.now() - start);
+  });
+
+  while (true) {
+    const elapsed = performance.now() - start;
+    const duration = finishAt ?? Math.max(MIN_FETCH_EXPAND_MS, elapsed + 120);
+    const progress = Math.min(1, elapsed / duration);
+
+    applyFlyoverBounds(flyover, lerpBounds(originBounds, landingBounds, progress), 0);
+
+    if (finishAt !== null && progress >= 1) {
+      applyFlyoverBounds(flyover, landingBounds, 0);
+      applyFlyoverScale(flyover, 1);
+      break;
+    }
+
+    await nextFrame();
+  }
+}
+
+function showFetchCurtain(curtain) {
+  curtain.style.opacity = '0.35';
+}
+
+async function ensureThumbMediaReady(thumb, imageSrc) {
+  if (!thumb || getFlyoverSourceMedia(thumb)) {
+    return;
+  }
+
+  await Promise.race([
+    preloadImage(imageSrc),
+    new Promise((resolve) => setTimeout(resolve, 2000)),
+  ]);
+}
+
+function preloadHeroFromDocument(nextDoc, transitionId, fallbackImageSrc) {
+  const nextHero = nextDoc.querySelector(
+    `.page-transition-hero[data-transition-id="${CSS.escape(transitionId)}"]`,
+  );
+  if (!nextHero) {
+    return;
+  }
+
+  const destinationImage = getHeroFlyoverImage(nextHero, fallbackImageSrc);
+  if (destinationImage) {
+    preloadImage(destinationImage);
+  }
+}
+
 function boundsToKeyframe(bounds) {
   return {
     left: `${bounds.left}px`,
@@ -449,46 +543,6 @@ async function measureHeroRect(hero, { fast = false, skipMediaWait = false } = {
 
   const fallback = hero.getBoundingClientRect();
   return isPlausibleHeroRect(fallback) ? fallback : null;
-}
-
-function lerpBounds(from, to, progress) {
-  const t = Math.min(1, Math.max(0, progress));
-
-  return {
-    left: from.left + (to.left - from.left) * t,
-    top: from.top + (to.top - from.top) * t,
-    width: from.width + (to.width - from.width) * t,
-    height: from.height + (to.height - from.height) * t,
-    slideDistance: to.slideDistance,
-  };
-}
-
-async function animateFlyoverExpandForFetch(flyover, originBounds, landingBounds, fetchPromise) {
-  applyFlyoverBounds(flyover, originBounds, 0);
-  applyFlyoverScale(flyover, 1);
-
-  const start = performance.now();
-  let finishAt = null;
-
-  fetchPromise.finally(() => {
-    finishAt = Math.max(MIN_EXPAND_DURATION, performance.now() - start);
-  });
-
-  while (true) {
-    const elapsed = performance.now() - start;
-    const duration = finishAt ?? Math.max(MIN_EXPAND_DURATION, elapsed + 120);
-    const progress = Math.min(1, elapsed / duration);
-
-    applyFlyoverBounds(flyover, lerpBounds(originBounds, landingBounds, progress), 0);
-
-    if (finishAt !== null && progress >= 1) {
-      applyFlyoverBounds(flyover, landingBounds, 0);
-      applyFlyoverScale(flyover, 1);
-      break;
-    }
-
-    await nextFrame();
-  }
 }
 
 async function animateFlyoverExpand(flyover, originBounds, landingBounds, duration) {
@@ -723,10 +777,11 @@ async function fadePageOut(curtain) {
     ...Array.from(document.querySelectorAll('.work-grid > a')),
   ].filter(Boolean);
 
-  curtain.style.opacity = '0';
+  const startOpacity = Number.parseFloat(curtain.style.opacity);
+  const fromOpacity = Number.isFinite(startOpacity) ? startOpacity : 0;
 
   await Promise.all([
-    runAnimation(curtain, [{ opacity: 0 }, { opacity: 1 }], {
+    runAnimation(curtain, [{ opacity: fromOpacity }, { opacity: 1 }], {
       duration: MOTION.fade,
       easing: MOTION.easing,
     }),
@@ -763,12 +818,12 @@ async function runPageTransition(link) {
 
   let flyover = null;
   let transitionOriginBounds = originBounds;
+  let fetchLandingBounds = null;
 
   if (originBounds && fallbackImageSrc) {
+    await ensureThumbMediaReady(thumb, fallbackImageSrc);
     flyover = createHeroFlyover(fallbackImageSrc, null, originBounds, thumb);
-    if (!getFlyoverSourceMedia(thumb)) {
-      preloadImage(fallbackImageSrc);
-    }
+    showFetchCurtain(curtain);
   } else if (isWorkPageNavLink(link)) {
     const currentHero = getHeroTarget();
     const currentImage = currentHero ? getHeroFlyoverImage(currentHero, '') : '';
@@ -782,37 +837,26 @@ async function runPageTransition(link) {
     }
   }
 
-  let landingBounds =
-    transitionOriginBounds && flyover
-      ? getFlyoverLandingBounds(transitionOriginBounds)
-      : null;
-
   let nextDoc;
   try {
-    const fetchPromise = fetchPageDocument(href);
+    const fetchPromise = fetchPageDocument(href).then((doc) => {
+      preloadHeroFromDocument(doc, transitionId, fallbackImageSrc);
+      return doc;
+    });
 
-    if (flyover && transitionOriginBounds && landingBounds) {
+    if (flyover && transitionOriginBounds) {
+      fetchLandingBounds = fetchWaitLandingBounds(transitionOriginBounds);
       [nextDoc] = await Promise.all([
         fetchPromise,
-        animateFlyoverExpandForFetch(
+        animateFlyoverExpandDuringFetch(
           flyover,
           transitionOriginBounds,
-          landingBounds,
+          fetchLandingBounds,
           fetchPromise,
         ),
       ]);
     } else {
       nextDoc = await fetchPromise;
-    }
-
-    const nextHero = nextDoc.querySelector(
-      `.page-transition-hero[data-transition-id="${CSS.escape(transitionId)}"]`,
-    );
-    if (nextHero) {
-      const destinationImage = getHeroFlyoverImage(nextHero, fallbackImageSrc);
-      if (destinationImage) {
-        preloadImage(destinationImage);
-      }
     }
   } catch {
     cleanupTransitionState();
@@ -846,8 +890,8 @@ async function runPageTransition(link) {
     hero.style.visibility = 'hidden';
 
     const settledBounds =
-      flyover && landingBounds
-        ? await animateFlyoverSettle(flyover, landingBounds, bounds, hero, curtain)
+      flyover && fetchLandingBounds
+        ? await animateFlyoverSettle(flyover, fetchLandingBounds, bounds, hero, curtain)
         : await animateFlyoverSlide(
             flyover,
             bounds,
@@ -876,7 +920,14 @@ function prefetchTransitionPage(href) {
     return;
   }
 
-  fetchPageDocument(href).catch(() => undefined);
+  fetchPageDocument(href)
+    .then((doc) => {
+      const transitionId = getTransitionIdFromHref(href);
+      if (transitionId) {
+        preloadHeroFromDocument(doc, transitionId, '');
+      }
+    })
+    .catch(() => undefined);
 }
 
 function initTransitions() {
