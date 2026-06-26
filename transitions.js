@@ -232,6 +232,49 @@ function createFlyoverMediaElement(imageSrc, sourceMedia) {
   return media;
 }
 
+function replaceFlyoverMedia(flyover, imageSrc, sourceMedia) {
+  flyover.replaceChildren(createFlyoverMediaElement(imageSrc, sourceMedia));
+}
+
+async function prepareImageForFlyover(imageSrc) {
+  if (!imageSrc) {
+    return null;
+  }
+
+  await Promise.race([
+    preloadImage(imageSrc),
+    new Promise((resolve) => setTimeout(resolve, 2000)),
+  ]);
+
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => resolve(null);
+    img.src = imageSrc;
+
+    if (img.complete && img.naturalWidth > 0) {
+      resolve(img);
+    }
+  });
+}
+
+async function updateFlyoverFromDocument(flyover, nextDoc, transitionId, fallbackImageSrc) {
+  const nextHero = nextDoc.querySelector(
+    `.page-transition-hero[data-transition-id="${CSS.escape(transitionId)}"]`,
+  );
+  if (!nextHero) {
+    return;
+  }
+
+  const destinationImage = getHeroFlyoverImage(nextHero, fallbackImageSrc);
+  if (!destinationImage) {
+    return;
+  }
+
+  const sourceMedia = await prepareImageForFlyover(destinationImage);
+  replaceFlyoverMedia(flyover, destinationImage, sourceMedia);
+}
+
 function getHeroFlyoverImage(hero, fallbackSrc) {
   const video = hero.querySelector('video');
   if (video?.poster) {
@@ -839,8 +882,11 @@ async function runPageTransition(link) {
 
   let nextDoc;
   try {
-    const fetchPromise = fetchPageDocument(href).then((doc) => {
+    const fetchPromise = fetchPageDocument(href).then(async (doc) => {
       preloadHeroFromDocument(doc, transitionId, fallbackImageSrc);
+      if (flyover && isWorkPageNavLink(link)) {
+        await updateFlyoverFromDocument(flyover, doc, transitionId, fallbackImageSrc);
+      }
       return doc;
     });
 
