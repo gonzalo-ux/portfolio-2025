@@ -344,6 +344,18 @@ header {
   gap: var(--gap-hero-stack);
   align-items: flex-start;
 }
+
+@media (max-width: 639px) {
+  .hero-stack .page-transition-hero {
+    order: 1;
+  }
+  .hero-stack .work-hero-intro {
+    order: 2;
+  }
+  .hero-stack .quick-links {
+    order: 3;
+  }
+}
 .heading-links {
   display: flex;
   flex-direction: column;

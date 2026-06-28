@@ -1,15 +1,30 @@
 const MOTION = {
   fade: 100,
-  heroSlide: 600,
+  heroSlide: 400,
   reveal: 600,
   entryScaleHold: 20,
   entryScaleSettle: 200,
   entryMobileFinalSettle: 300,
-  easing: 'cubic-bezier(0.33, 1, 0.68, 1)',
+  easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
 };
 
-const HERO_EXPAND_MAX_WIDTH = 2000;
-const MIN_FETCH_EXPAND_MS = 400;
+const HERO_CONTAINER_MAX_WIDTH = 1280;
+const MIN_FETCH_EXPAND_MS = 250;
+
+function getHeroContainerWidth() {
+  const viewportWidth = window.innerWidth;
+  const isSmallViewport = viewportWidth < 640;
+  const padding = isSmallViewport ? 16 : 32;
+  const contentWidth = viewportWidth - padding * 2;
+  return Math.min(contentWidth, HERO_CONTAINER_MAX_WIDTH);
+}
+
+function getHeroContainerLeft() {
+  const viewportWidth = window.innerWidth;
+  const containerWidth = getHeroContainerWidth();
+  return Math.max(0, (viewportWidth - containerWidth) / 2);
+}
+
 const pageHtmlCache = new Map();
 
 function isMobileViewport() {
@@ -302,9 +317,8 @@ function rectToBounds(rect) {
 }
 
 function entryBoundsFromHeroBounds(bounds) {
-  const viewportWidth = window.innerWidth;
-  const width = Math.min(viewportWidth, HERO_EXPAND_MAX_WIDTH);
-  const left = Math.max(0, (viewportWidth - width) / 2);
+  const width = getHeroContainerWidth();
+  const left = getHeroContainerLeft();
   const aspect = bounds.height / bounds.width;
 
   return {
@@ -321,11 +335,10 @@ function getFlyoverLandingBounds(bounds) {
 }
 
 function fetchWaitLandingBounds(originBounds) {
-  const viewportWidth = window.innerWidth;
-  const width = Math.min(viewportWidth, HERO_EXPAND_MAX_WIDTH);
+  const width = getHeroContainerWidth();
+  const left = getHeroContainerLeft();
   const aspect = originBounds.height / originBounds.width;
   const height = width * aspect;
-  const left = Math.max(0, (viewportWidth - width) / 2);
   const thumbCenterY = originBounds.top + originBounds.height / 2;
   const margin = 16;
   let top = thumbCenterY - height / 2;
@@ -804,12 +817,17 @@ async function handoffFlyoverToHero(flyover, hero, bounds) {
     new Promise((resolve) => setTimeout(resolve, 1200)),
   ]);
   hero.style.visibility = 'visible';
-  flyover.remove();
 
   const video = hero.querySelector('video');
   if (video) {
     video.play().catch(() => undefined);
   }
+
+  await runAnimation(flyover, [{ opacity: 1 }, { opacity: 0 }], {
+    duration: 300,
+    easing: MOTION.easing,
+  });
+  flyover.remove();
 }
 
 async function fadePageOut(curtain) {
